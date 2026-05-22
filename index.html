@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuronVoxel AI | Intelligent Solutions</title>
+    <style>
+        :root {
+            --bg-color: #0b0914;
+            --card-bg: #141126;
+            --text-color: #f1f0f5;
+            --accent-purple: #7a42b8;
+            --muted-text: #a39fb8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 380px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        main {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            flex: 1;
+        }
+
+        .hero {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--muted-text);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(122, 66, 184, 0.15);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-purple);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .card p {
+            color: var(--muted-text);
+        }
+
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, #141126 0%, #1d143a 100%);
+            border: 1px solid rgba(122, 66, 184, 0.2);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .cta-section h2 {
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--muted-text);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-purple);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #8e54cf;
+        }
+
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 1rem;
+            text-align: center;
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.svg" alt="NeuronVoxel AI Logo" class="logo">
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Advanced Vision & Intelligent Machine Learning Systems</h1>
+            <p>Bridging complex research with production-ready code to solve high-stakes challenges in medical imaging,
+                segmentation, and robotic automation.</p>
+        </section>
+
+        <section class="grid">
+            <div class="card">
+                <h3>Medical Image Computing</h3>
+                <p>Expert processing of 3D modalities (CT, MRI, Microscopy). Specialized in high-accuracy registration
+                    pipelines and neural segmentation architectures like nnU-Net and MONAI.</p>
+            </div>
+            <div class="card">
+                <h3>Robust CV Pipelines</h3>
+                <p>Blending classical computer vision depth with modern deep learning methods to build robust,
+                    reproducible vision systems engineered for critical real-world deployments.</p>
+            </div>
+            <div class="card">
+                <h3>Edge Deployment & Optimization</h3>
+                <p>Tailoring heavy model architectures into light, high-performance engines optimized for hardware
+                    constraints without sacrificing algorithmic precision.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Let's build together</h2>
+            <p>Looking for technical consulting, algorithm design, or production-grade AI system validation?</p>
+            <a href="mailto:your-email@example.com" class="btn">Get in Touch</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 NeuronVoxel AI. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

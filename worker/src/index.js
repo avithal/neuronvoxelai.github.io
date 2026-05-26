@@ -125,12 +125,9 @@ RULES:
 - Format your response in clean markdown.`;
 
 // ── CORS helpers ────────────────────────────────────────────
-function getCorsHeaders(origin) {
-  const allowed = ALLOWED_ORIGINS.some(
-    (o) => origin && origin.startsWith(o)
-  );
+function getCorsHeaders() {
   return {
-    "Access-Control-Allow-Origin": allowed ? origin : ALLOWED_ORIGINS[0],
+    "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Max-Age": "86400",
@@ -140,8 +137,7 @@ function getCorsHeaders(origin) {
 // ── Main handler ────────────────────────────────────────────
 export default {
   async fetch(request, env) {
-    const origin = request.headers.get("Origin") || "";
-    const corsHeaders = getCorsHeaders(origin);
+    const corsHeaders = getCorsHeaders();
 
     // Handle CORS preflight
     if (request.method === "OPTIONS") {
@@ -226,10 +222,14 @@ export default {
       if (!nimResponse.ok) {
         const errText = await nimResponse.text();
         console.error("NIM API error:", nimResponse.status, errText);
+        let userMsg = "AI service temporarily unavailable. Please try again in a moment.";
+        try {
+          const errJson = JSON.parse(errText);
+          if (errJson.detail) userMsg = "NIM error: " + errJson.detail;
+          if (errJson.error) userMsg = "NIM error: " + (errJson.error.message || errJson.error);
+        } catch {}
         return new Response(
-          JSON.stringify({
-            error: "AI service temporarily unavailable. Please try again in a moment.",
-          }),
+          JSON.stringify({ error: userMsg }),
           { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }

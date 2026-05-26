@@ -1,0 +1,16 @@
+What will your job look like:
+
+Research, design, develop, and implement lidar based algorithms in both Python and C++ for solving complex problems
+Evaluate existing models and techniques, and propose innovative approaches to improve algorithm performance and accuracy
+Examine your algorithms on large-scale real-world data from our data collection vehicles across the globe
+Collaborate with cross-functional teams to understand requirements and develop solutions
+Optimize existing algorithms to improve performance and scalability
+
+All you need is:
+
+M.Sc. in Computer Science, Electrical Engineering or a related field
+3+ years of experience in developing Computer Vision algorithms
+Strong statistical analysis, mathematical, and problem-solving skills
+Ability to learn new technologies and techniques
+Independence, creativity and a proactive approach
+Experience with the automotive industry is an advantage

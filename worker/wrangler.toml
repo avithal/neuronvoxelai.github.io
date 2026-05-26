@@ -1,0 +1,8 @@
+name = "neuronvoxel-nim-proxy"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+workers_dev = true
+account_id = "b1c802cd267fad92711fcab0ea5ef304"
+
+# The NIM_API_KEY is set via: npx wrangler secret put NIM_API_KEY
+# It is NEVER stored in this file or in source code.

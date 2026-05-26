@@ -1,2 +1,9 @@
 # Skill files - not for deployment
 skills_mine-main/
+
+# Worker build artifacts (source code IS tracked; secrets are set via wrangler CLI)
+worker/node_modules/
+worker/.wrangler/
+
+# Personal files
+*.pdf

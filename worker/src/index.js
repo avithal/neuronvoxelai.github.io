@@ -1,0 +1,256 @@
+// ──────────────────────────────────────────────────────────────
+// NeuronVoxel AI — NVIDIA NIM Proxy Worker
+// Secure backend that holds the resume + API key server-side.
+// Visitors only send a job description; the key never leaves here.
+// ──────────────────────────────────────────────────────────────
+
+const ALLOWED_ORIGINS = [
+  "https://neuronvoxelai.com",
+  "https://www.neuronvoxelai.com",
+  "https://avithal.github.io",
+  "http://localhost",
+  "http://127.0.0.1",
+];
+
+// ── Easily swappable model ──────────────────────────────────
+const NIM_MODEL = "meta/llama-3.1-70b-instruct";
+const NIM_BASE_URL = "https://integrate.api.nvidia.com/v1/chat/completions";
+
+// ── Rate limiting (simple in-memory, per-IP, 10s cooldown) ──
+const RATE_LIMIT_MS = 10_000;
+const ipTimestamps = new Map();
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const last = ipTimestamps.get(ip) || 0;
+  if (now - last < RATE_LIMIT_MS) return true;
+  ipTimestamps.set(ip, now);
+  // Prune old entries every ~100 requests
+  if (ipTimestamps.size > 500) {
+    for (const [k, v] of ipTimestamps) {
+      if (now - v > RATE_LIMIT_MS * 6) ipTimestamps.delete(k);
+    }
+  }
+  return false;
+}
+
+// ── Resume (baked in — never sent to the browser) ───────────
+const RESUME = `
+Avithal E. Lautman, MSc
+Rockville, MD (DMV Region — US Green Card Holder)
+301-232-8139 | avithal@gmail.com
+github.com/avithal | linkedin.com/in/avithal-e-lautman-5350aa15/
+
+Senior Computer Vision Engineer — 10+ Years in Perception Systems & Production ML
+
+About Me:
+Dynamic "do-it-all" Computer Vision expert with 10+ years of experience building end-to-end robust perception systems. Fast learner of emerging technologies, with a proven ability to self-teach and deploy cutting-edge research into stable production environments. Specialized in resource-constrained optimization, maximizing compute efficiency without sacrificing robustness. Expert in the full SDLC, combining high-level architecture with meticulous documentation and engineering best practices.
+
+Skills:
+- Computer Vision & AI: OpenCV, PyTorch, TensorFlow, YOLO, Mask-RCNN, U-Net, ResNet, ViT, DINO, SAM, SLAM, OCR, ONNX
+- Emerging Tech: Generative AI, Diffusion models, LLMs, RAG, NeRF, Gaussian Splatting, Claude (Anthropic), Prompt Optimization
+- 3D & Medical Imaging: MRI/CT Reconstruction, Point Clouds, SLAM, Quaternions, VTK, SimpleITK
+- Systems & MLOps: SDLC Documentation, Google Cloud, Azure DevOps, CI/CD, Jetson Orin Nano, C++, Python, SQL, NSIGHT
+
+Experience:
+
+Freelance — Robotics & Computer Vision Engineer (June 2025 - Present, USA)
+• Project 1: Edge Vision & Multimodal AI System
+  - Architected and deployed YOLO, OCR, and EfficientNet on a Jetson Orin Nano, prioritizing minimal memory footprints and 100% field robustness utilizing classical CV to deliver a working proof-of-concept in just 2 months.
+  - Integrated multimodal features for voice-command operations alongside vision pipelines; developed automation, monitoring, and watchdog fault-recovery scripts to ensure long-term production stability.
+  - Applied SDLC best practices, maintaining comprehensive deployment documentation via Git and Azure DevOps.
+• Project 2: CNC Machine Tending Automation
+  - Programmed a 6-axis robotic arm to automate raw material block loading and unloading for a CNC machine. Designed custom end-of-arm tooling with Gigapose, SAM3, Multiview refinement to ensure precise workpiece placement and 100% operational safety.
+
+Applied Spectral Imaging — Computer Vision Engineer (April 2023 - Dec 2024, Israel)
+• High-Impact CV: Slashed diagnostic time by 83% by designing and validating deep learning models (U-Net, ResNet) for genomic analysis.
+• Production Scaling: Boosted model accuracy from 90% to 97% by owning the ML lifecycle and implementing CI/CD best practices in PyTorch via Git and Azure DevOps.
+
+Novocure — Algorithm Engineer (June 2021 - March 2023, Israel)
+• Precision Modeling and treatment planning cancer: Reconstructed 3D volumetric models and placed electrodes for electrical simulation using MRI/CT meshes and quaternions.
+• Technology Pioneer: Self-learned and introduced XGBoost, advanced NeRF research and 3D modeling technologies to drive internal R&D innovation.
+
+EchoLogic Medical — Senior Computer Vision Engineer (June 2017 - June 2021, Israel)
+• Low-Resource Optimization: Engineered a GPU-free inference pipeline maintaining 85% accuracy for cost-effective clinical deployment using LeNet and XGBoost.
+• FDA Deployment: Led the design of real-time AI prototypes for clinical workflows, bridging technical implementation with regulatory validation.
+
+Earlier CV Innovation (Eyecue & DIR Tech) — Computer Vision Engineer (2015 - 2017, Israel)
+• Deep-Rooted CV Expertise: Developed custom SLAM on SURF-based feature detection from scratch, avoiding reliance on external libraries with multi-camera calibration and re-identification (ReID).
+• Revenue Growth: Created tailored real-time algorithms for infrared inspection, contributing to $12M in new business.
+
+Education:
+Technion - Israel Institute of Technology — M.Sc. Electrical Engineering (Oct 2011 - May 2014)
+  Recipient of Joan and Irwin Jacob Scholarship
+  Thesis: Statistical Analysis of Particle Transport and Interactions in Metastatic Cancer
+
+Calicut University — B.Tech. Electronics and Communication Engineering (Aug 2006 - July 2010)
+  Graduated top of class with honours.
+  Final project: Obstacle Detection using Single Camera
+`;
+
+// ── System prompt ───────────────────────────────────────────
+const SYSTEM_PROMPT = `You are an expert technical recruiter AI for NeuronVoxel AI. You have deep knowledge of the candidate whose resume is provided below. When given a job description, you must analyze how well this candidate matches the role.
+
+CANDIDATE RESUME:
+${RESUME}
+
+YOUR OUTPUT FORMAT (use exactly this structure, with markdown):
+
+## 🎯 Overall Match: [X]%
+
+### Category Scores
+| Category | Score | Notes |
+|----------|-------|-------|
+| Technical Skills | X/10 | [brief note] |
+| Experience Level | X/10 | [brief note] |
+| Domain Fit | X/10 | [brief note] |
+| Education & Research | X/10 | [brief note] |
+
+### ✅ Strengths
+- [bullet points of matching strengths]
+
+### ⚠️ Gaps
+- [bullet points of missing or weak areas]
+
+### 💡 Detailed Analysis
+[2-3 paragraphs of detailed analysis explaining the match, calling out specific resume items that align with job requirements, and noting any areas where additional experience or skills would strengthen the candidacy. Be specific — reference exact technologies, projects, and achievements from the resume.]
+
+### 📋 Recommendation
+[One paragraph summary: would you recommend this candidate for the role, and why or why not?]
+
+RULES:
+- Be honest and objective. If the candidate is not a good fit, say so clearly.
+- Always reference specific items from the resume.
+- The overall % should reflect a weighted combination of the four category scores.
+- Format your response in clean markdown.`;
+
+// ── CORS helpers ────────────────────────────────────────────
+function getCorsHeaders(origin) {
+  const allowed = ALLOWED_ORIGINS.some(
+    (o) => origin && origin.startsWith(o)
+  );
+  return {
+    "Access-Control-Allow-Origin": allowed ? origin : ALLOWED_ORIGINS[0],
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Max-Age": "86400",
+  };
+}
+
+// ── Main handler ────────────────────────────────────────────
+export default {
+  async fetch(request, env) {
+    const origin = request.headers.get("Origin") || "";
+    const corsHeaders = getCorsHeaders(origin);
+
+    // Handle CORS preflight
+    if (request.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: corsHeaders });
+    }
+
+    // Only POST /analyze
+    const url = new URL(request.url);
+    if (request.method !== "POST" || url.pathname !== "/analyze") {
+      return new Response(
+        JSON.stringify({ error: "Not found. Use POST /analyze" }),
+        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Rate limit
+    const clientIP =
+      request.headers.get("CF-Connecting-IP") ||
+      request.headers.get("X-Forwarded-For") ||
+      "unknown";
+    if (isRateLimited(clientIP)) {
+      return new Response(
+        JSON.stringify({
+          error: "Please wait a few seconds before trying again.",
+        }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Parse body
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(
+        JSON.stringify({ error: "Invalid JSON body." }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const jobDescription = (body.jobDescription || "").trim();
+    if (!jobDescription || jobDescription.length < 20) {
+      return new Response(
+        JSON.stringify({
+          error: "Please provide a job description (at least 20 characters).",
+        }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    if (jobDescription.length > 10000) {
+      return new Response(
+        JSON.stringify({
+          error: "Job description is too long. Please keep it under 10,000 characters.",
+        }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Call NVIDIA NIM
+    try {
+      const nimResponse = await fetch(NIM_BASE_URL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${env.NIM_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: NIM_MODEL,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            {
+              role: "user",
+              content: `Please analyze how well the candidate matches this job description:\n\n---\n${jobDescription}\n---`,
+            },
+          ],
+          temperature: 0.3,
+          max_tokens: 2048,
+        }),
+      });
+
+      if (!nimResponse.ok) {
+        const errText = await nimResponse.text();
+        console.error("NIM API error:", nimResponse.status, errText);
+        return new Response(
+          JSON.stringify({
+            error: "AI service temporarily unavailable. Please try again in a moment.",
+          }),
+          { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      const nimData = await nimResponse.json();
+      const analysis =
+        nimData.choices?.[0]?.message?.content || "No analysis generated.";
+
+      return new Response(
+        JSON.stringify({ analysis, model: NIM_MODEL }),
+        {
+          status: 200,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    } catch (err) {
+      console.error("Worker error:", err);
+      return new Response(
+        JSON.stringify({ error: "An unexpected error occurred." }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+  },
+};

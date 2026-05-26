@@ -641,7 +641,7 @@
             errorPanel.style.display = 'none';
         }
 
-        // ── Main handler ──────────────────────────────
+        // ── Main handler (streaming) ──────────────────
         analyzeBtn.addEventListener('click', async function() {
             clearError();
             const jobDesc = textarea.value.trim();
@@ -653,6 +653,7 @@
 
             setLoading(true);
             resultsPanel.style.display = 'none';
+            resultsContent.innerHTML = '';
 
             try {
                 const response = await fetch(WORKER_URL + '/analyze', {
@@ -661,20 +662,41 @@
                     body: JSON.stringify({ jobDescription: jobDesc }),
                 });
 
-                const data = await response.json();
-
-                if (!response.ok) {
+                // If error (JSON response), handle it
+                const contentType = response.headers.get('Content-Type') || '';
+                if (!response.ok || contentType.includes('application/json')) {
+                    const data = await response.json();
                     showError(data.error || 'Something went wrong. Please try again.');
                     setLoading(false);
                     return;
                 }
 
-                // Render the analysis
-                resultsContent.innerHTML = renderMarkdown(data.analysis);
+                // Stream the text response
                 resultsPanel.style.display = 'block';
-
-                // Smooth scroll to results
                 resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullText = '';
+                let renderFrame = null;
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    fullText += decoder.decode(value, { stream: true });
+
+                    // Throttle rendering to ~30fps to avoid jank
+                    if (!renderFrame) {
+                        renderFrame = requestAnimationFrame(function() {
+                            resultsContent.innerHTML = renderMarkdown(fullText);
+                            renderFrame = null;
+                        });
+                    }
+                }
+
+                // Final render to catch any remaining content
+                resultsContent.innerHTML = renderMarkdown(fullText);
 
             } catch (err) {
                 showError('Network error — please check your connection and try again.');

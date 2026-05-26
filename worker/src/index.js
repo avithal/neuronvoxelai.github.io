@@ -13,7 +13,7 @@ const ALLOWED_ORIGINS = [
 ];
 
 // ── Easily swappable model ──────────────────────────────────
-const NIM_MODEL = "meta/llama-3.1-70b-instruct";
+const NIM_MODEL = "meta/llama-3.1-8b-instruct";
 const NIM_BASE_URL = "https://integrate.api.nvidia.com/v1/chat/completions";
 
 // ── Rate limiting (simple in-memory, per-IP, 10s cooldown) ──
@@ -197,7 +197,7 @@ export default {
       );
     }
 
-    // Call NVIDIA NIM
+    // Call NVIDIA NIM with streaming
     try {
       const nimResponse = await fetch(NIM_BASE_URL, {
         method: "POST",
@@ -215,7 +215,8 @@ export default {
             },
           ],
           temperature: 0.3,
-          max_tokens: 2048,
+          max_tokens: 1024,
+          stream: true,
         }),
       });
 
@@ -234,17 +235,57 @@ export default {
         );
       }
 
-      const nimData = await nimResponse.json();
-      const analysis =
-        nimData.choices?.[0]?.message?.content || "No analysis generated.";
+      // Stream the response through to the client
+      const { readable, writable } = new TransformStream();
+      const writer = writable.getWriter();
+      const encoder = new TextEncoder();
 
-      return new Response(
-        JSON.stringify({ analysis, model: NIM_MODEL }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+      // Process the SSE stream from NIM in the background
+      (async () => {
+        try {
+          const reader = nimResponse.body.getReader();
+          const decoder = new TextDecoder();
+          let buffer = "";
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split("\n");
+            buffer = lines.pop() || "";
+
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (!trimmed || !trimmed.startsWith("data: ")) continue;
+              const data = trimmed.slice(6);
+              if (data === "[DONE]") continue;
+
+              try {
+                const parsed = JSON.parse(data);
+                const content = parsed.choices?.[0]?.delta?.content || "";
+                if (content) {
+                  await writer.write(encoder.encode(content));
+                }
+              } catch {}
+            }
+          }
+        } catch (err) {
+          console.error("Stream processing error:", err);
+        } finally {
+          await writer.close();
         }
-      );
+      })();
+
+      return new Response(readable, {
+        status: 200,
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "text/plain; charset=utf-8",
+          "Transfer-Encoding": "chunked",
+          "X-Model": NIM_MODEL,
+        },
+      });
     } catch (err) {
       console.error("Worker error:", err);
       return new Response(

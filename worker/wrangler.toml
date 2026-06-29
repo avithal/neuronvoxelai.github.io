@@ -12,4 +12,4 @@ account_id = "b1c802cd267fad92711fcab0ea5ef304"
 # Then paste the returned id below
 [[kv_namespaces]]
 binding = "QUIZ_EMAILS"
-id = "PLACEHOLDER_NEEDS_REAL_ID"
+id = "e84f9c106d6149a4b29402eceee7862c"

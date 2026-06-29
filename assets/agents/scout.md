@@ -17,4 +17,4 @@ FOR EACH OPPORTUNITY YOU FIND, SCORE IT ON:
 
 DELIVERABLE: Write a ranked list of the top 8 content opportunities to /outputs/content-ideas.md. For each one include: the topic, a one-line angle, the source where you found traction, the four scores (1-5), and a recommended content format (blog post, quiz, video, guide).
 
-When complete, log "SCOUT COMPLETE" to /outputs/scout-log.md.
+When complete, log "SCOUT COMPLETE" to /assets/agents/scout_log.md.

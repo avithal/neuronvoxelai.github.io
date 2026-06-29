@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Take the Sorting Hat of Computer Vision quiz! Discover your CV engineering archetype and get personalized course recommendations.">
+    <meta property="og:title" content="NeuronVoxel AI | CV Sorting Hat Quiz">
+    <meta property="og:description"
+        content="Which Computer Vision house do you belong to? Take the quiz and find out!">
+    <meta property="og:type" content="website">
+    <title>NeuronVoxel AI | CV Sorting Hat Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0914;
+            --card-bg: #141126;
+            --card-bg-elevated: #1a1533;
+            --text-color: #f1f0f5;
+            --accent-purple: #7a42b8;
+            --accent-purple-glow: rgba(122, 66, 184, 0.35);
+            --accent-green: #34d399;
+            --accent-amber: #fbbf24;
+            --accent-red: #f87171;
+            --muted-text: #a39fb8;
+            --border-subtle: rgba(122, 66, 184, 0.15);
+            --gryffindor: #ae0001;
+            --ravenclaw: #0e1a40;
+            --hufflepuff: #ecb939;
+            --slytherin: #1a472a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 380px;
+            width: 100%;
+            height: auto;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--card-bg-elevated);
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .nav-tab {
+            color: var(--muted-text);
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-purple);
+            color: #fff;
+            box-shadow: 0 4px 12px var(--accent-purple-glow);
+        }
+
+        main {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            flex: 1;
+        }
+
+        /* ── Quiz Hero ───────────────────────────────── */
+        .quiz-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .quiz-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 30%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .quiz-hero p {
+            font-size: 1.15rem;
+            color: var(--muted-text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quiz-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(122, 66, 184, 0.15);
+            border: 1px solid rgba(122, 66, 184, 0.3);
+            border-radius: 100px;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #c084fc;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.04em;
+        }
+
+        /* ── Progress Bar ────────────────────────────── */
+        .progress-bar-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--muted-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            background: var(--card-bg-elevated);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7a42b8, #c084fc);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        /* ── Question Card ───────────────────────────── */
+        .question-card {
+            background: linear-gradient(145deg, var(--card-bg) 0%, #1a1436 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+        }
+
+        .question-number {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #c084fc;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .answer-btn {
+            background: rgba(11, 9, 20, 0.6);
+            border: 1px solid rgba(122, 66, 184, 0.2);
+            border-radius: 12px;
+            padding: 1.1rem 1.4rem;
+            color: var(--text-color);
+            font-size: 0.95rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+        }
+
+        .answer-btn:hover {
+            border-color: var(--accent-purple);
+            background: rgba(122, 66, 184, 0.1);
+            transform: translateX(4px);
+        }
+
+        .answer-btn.selected {
+            border-color: var(--accent-purple);
+            background: rgba(122, 66, 184, 0.2);
+            box-shadow: 0 0 0 2px var(--accent-purple-glow);
+        }
+
+        /* ── Email Capture ───────────────────────────── */
+        .email-capture {
+            animation: fadeIn 0.4s ease;
+        }
+
+        .email-capture h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #c084fc 0%, #7a42b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .email-capture p {
+            color: var(--muted-text);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .email-input {
+            flex: 1;
+            background: rgba(11, 9, 20, 0.6);
+            border: 1px solid rgba(122, 66, 184, 0.2);
+            border-radius: 10px;
+            padding: 0.85rem 1.25rem;
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 3px var(--accent-purple-glow);
+        }
+
+        .email-input::placeholder {
+            color: rgba(163, 159, 184, 0.5);
+        }
+
+        .email-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #7a42b8 0%, #9333ea 100%);
+            color: #fff;
+            border: none;
+            padding: 0.85rem 1.8rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+        }
+
+        .email-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--accent-purple-glow);
+        }
+
+        .email-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .email-error {
+            color: var(--accent-red);
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 0.75rem;
+        }
+
+        .email-privacy {
+            text-align: center;
+            font-size: 0.75rem;
+            color: rgba(163, 159, 184, 0.5);
+            margin-top: 1rem;
+        }
+
+        /* ── Results ─────────────────────────────────── */
+        .results-panel {
+            animation: fadeIn 0.6s ease;
+        }
+
+        .house-reveal {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .house-crest {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .house-name {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .house-title {
+            font-size: 1.1rem;
+            color: var(--muted-text);
+            margin-bottom: 1.5rem;
+        }
+
+        .house-desc {
+            background: linear-gradient(145deg, var(--card-bg) 0%, #1a1436 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .house-desc::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+        }
+
+        .house-desc p {
+            color: var(--muted-text);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .recommendation-card {
+            background: var(--card-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-card h4 {
+            color: #c084fc;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation-card p {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .score-item {
+            background: var(--card-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .score-item .score-house {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted-text);
+            margin-bottom: 0.25rem;
+        }
+
+        .score-item .score-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .retake-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 2rem auto 0 auto;
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            color: var(--muted-text);
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .retake-btn:hover {
+            border-color: var(--accent-purple);
+            color: var(--text-color);
+            background: rgba(122, 66, 184, 0.1);
+        }
+
+        /* ── Footer ──────────────────────────────────── */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 1rem;
+            text-align: center;
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+
+        /* ── Animations ──────────────────────────────── */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(122, 66, 184, 0.3); }
+            50% { box-shadow: 0 0 0 20px rgba(122, 66, 184, 0); }
+        }
+
+        /* ── Responsive ──────────────────────────────── */
+        @media (max-width: 768px) {
+            .quiz-hero h1 { font-size: 1.75rem; }
+            .question-card { padding: 1.5rem; }
+            .question-text { font-size: 1.1rem; }
+            .email-form { flex-direction: column; }
+            .score-breakdown { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .quiz-hero h1 { font-size: 1.4rem; }
+            .question-card { padding: 1rem; }
+        }
+
+        /* Hidden */
+        .hidden { display: none !important; }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.svg" alt="NeuronVoxel AI Logo" class="logo">
+        </div>
+        <nav class="nav-tabs">
+            <a href="index.html" class="nav-tab">Home</a>
+            <a href="services.html" class="nav-tab">Services</a>
+            <a href="quiz.html" class="nav-tab active">Quiz</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="quiz-hero">
+            <span class="quiz-badge">🎩 The Sorting Hat of Computer Vision</span>
+            <h1>Which CV House Do You Belong To?</h1>
+            <p>Answer 6 absurd (but oddly realistic) engineering dilemmas and discover your true Computer Vision archetype.</p>
+        </section>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container" id="progress-container">
+            <div class="progress-label">
+                <span id="progress-text">Question 1 of 6</span>
+                <span id="progress-pct">0%</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Question Area -->
+        <div id="quiz-area">
+            <!-- Questions injected by JS -->
+        </div>
+
+        <!-- Email Capture (hidden until quiz complete) -->
+        <div id="email-area" class="hidden">
+            <div class="question-card email-capture">
+                <h2>🔮 Your House Awaits...</h2>
+                <p>The Sorting Hat has decided! Enter your email to reveal your archetype and get a personalized recommendation.</p>
+                <div class="email-form">
+                    <input type="email" class="email-input" id="email-input" placeholder="your.email@gpu-cluster.io" required>
+                    <button class="email-submit" id="email-submit" type="button">Reveal My House</button>
+                </div>
+                <div class="email-error hidden" id="email-error"></div>
+                <p class="email-privacy">🔒 We'll only use this to send you CV wizardry. No spam, pinky promise.</p>
+            </div>
+        </div>
+
+        <!-- Results (hidden until email submitted) -->
+        <div id="results-area" class="hidden">
+            <!-- Results injected by JS -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 NeuronVoxel AI. All rights reserved.</p>
+    </footer>
+
+    <script>
+    (function() {
+        // ── Worker URL for email capture ──────────────────
+        const WORKER_URL = 'https://neuronvoxel-nim-proxy.neuronvoxelai.workers.dev';
+
+        // ── Questions ─────────────────────────────────────
+        const questions = [
+            {
+                text: "Your GPU cluster catches fire during training at epoch 847 of 850. What's your move?",
+                answers: [
+                    { text: "🔥 Restart from scratch on a bigger cluster. Fortune favors the bold!", scores: { G: 3, R: 0, H: 0, S: 1 } },
+                    { text: "🧠 Analyze the crash logs first — maybe the loss landscape reveals something about the data distribution.", scores: { G: 0, R: 3, H: 1, S: 0 } },
+                    { text: "💾 Good thing I checkpoint every 50 epochs. Resume from epoch 800 and grab coffee.", scores: { G: 0, R: 1, H: 3, S: 0 } },
+                    { text: "⚡ Load the epoch 847 weights anyway — partially trained models have their uses...", scores: { G: 1, R: 0, H: 0, S: 3 } }
+                ]
+            },
+            {
+                text: "You discover your training labels were crowd-sourced by people who think a 'convolution' is a type of bread. How do you fix it?",
+                answers: [
+                    { text: "🛡️ Relabel the entire dataset myself this weekend. Integrity matters!", scores: { G: 3, R: 1, H: 0, S: 0 } },
+                    { text: "📐 Design a noise-robust loss function and train with label smoothing. Math > manual labor.", scores: { G: 0, R: 3, H: 0, S: 1 } },
+                    { text: "🤝 Build a consensus-voting tool so the labelers can collaboratively fix their own mistakes.", scores: { G: 0, R: 0, H: 3, S: 1 } },
+                    { text: "🤖 Use the noisy model as a teacher for self-training. Bad labels become features, not bugs.", scores: { G: 1, R: 0, H: 0, S: 3 } }
+                ]
+            },
+            {
+                text: "Your edge deployment target is a potato-powered microcontroller with 128KB of RAM. Your model is 4GB. Now what?",
+                answers: [
+                    { text: "💪 Challenge accepted. I'll re-architect the whole model from scratch to fit.", scores: { G: 3, R: 0, H: 1, S: 0 } },
+                    { text: "🔬 Time for neural architecture search. Let the math find the optimal tiny model.", scores: { G: 0, R: 3, H: 0, S: 1 } },
+                    { text: "📋 Document the constraints clearly and propose a phased approach: cloud inference now, edge later.", scores: { G: 0, R: 1, H: 3, S: 0 } },
+                    { text: "✂️ INT4 quantization, structured pruning, knowledge distillation. Stack every trick in the book.", scores: { G: 0, R: 0, H: 0, S: 3 } }
+                ]
+            },
+            {
+                text: "The PM asks: 'Can we add real-time object detection to the app? It should work on a 2015 Android phone.' You say:",
+                answers: [
+                    { text: "🚀 'Give me 48 hours.' Then you don't sleep and actually ship it.", scores: { G: 3, R: 0, H: 0, S: 1 } },
+                    { text: "📊 'Let me benchmark MobileNet vs. EfficientDet on that chipset first — I'll present findings tomorrow.'", scores: { G: 0, R: 3, H: 1, S: 0 } },
+                    { text: "🗓️ 'Here's a realistic timeline with milestones. Let's align on scope so nobody burns out.'", scores: { G: 0, R: 0, H: 3, S: 1 } },
+                    { text: "😏 'Sure, but I'll also add a fallback to server-side inference — nobody will notice the difference.'", scores: { G: 1, R: 1, H: 0, S: 3 } }
+                ]
+            },
+            {
+                text: "You're at a conference and someone presents a paper that's basically your approach but with a fancier name. Reaction?",
+                answers: [
+                    { text: "🎤 Stand up during Q&A and present your own results. May the best pipeline win!", scores: { G: 3, R: 0, H: 0, S: 1 } },
+                    { text: "📝 Take meticulous notes, compare their ablation studies with yours, and email them for a collaboration.", scores: { G: 0, R: 3, H: 1, S: 0 } },
+                    { text: "☕ Congratulate them afterwards — rising tide lifts all SLAM pipelines.", scores: { G: 0, R: 0, H: 3, S: 0 } },
+                    { text: "🗂️ File a provisional patent. Then email them about 'potential licensing opportunities.'", scores: { G: 0, R: 1, H: 0, S: 3 } }
+                ]
+            },
+            {
+                text: "Your model gets 99.9% accuracy on the test set but fails spectacularly on the CEO's demo. What happened?",
+                answers: [
+                    { text: "🔍 Live-debug on stage. Pressure makes diamonds!", scores: { G: 3, R: 0, H: 0, S: 1 } },
+                    { text: "📉 'The test set distribution clearly doesn't match production. Here's my analysis and proposed domain adaptation strategy.'", scores: { G: 0, R: 3, H: 1, S: 0 } },
+                    { text: "📱 Quietly deploy the hotfix, send the CEO a 'works now!' Slack message, and update the post-mortem doc.", scores: { G: 0, R: 0, H: 3, S: 1 } },
+                    { text: "🎭 'That was actually a planned stress test. The real model deploys Thursday.'", scores: { G: 1, R: 0, H: 0, S: 3 } }
+                ]
+            }
+        ];
+
+        // ── House Data ────────────────────────────────────
+        const houses = {
+            G: {
+                name: "Gryffindor",
+                emoji: "🦁",
+                color: "#ae0001",
+                title: "The Fearless Deployer",
+                desc: "You're the engineer who pushes to production on Fridays and doesn't flinch. Bold, decisive, and unafraid to tackle the hardest problems head-on. You've probably rewritten a CUDA kernel 'just to see if you could.' Your bravery in the face of impossible deadlines is legendary — and slightly terrifying to your teammates.",
+                recommendation: "Deep ViT Training Boot Camp",
+                recDetail: "Channel that fearlessness into mastering Vision Transformers from scratch — and get access to Enterprise GPU Cloud services to push your models to the limit."
+            },
+            R: {
+                name: "Ravenclaw",
+                emoji: "🦅",
+                color: "#0e1a40",
+                title: "The Theoretical Wizard",
+                desc: "You read ArXiv papers for fun and your whiteboards have more equations than your codebase has lines. You believe every engineering decision should be backed by mathematical rigor, and you've been known to derive the optimal hyperparameters analytically before touching a GPU. Your pull requests come with citations.",
+                recommendation: "Advanced 3D Reconstruction & Spatial AI Masterclass",
+                recDetail: "Feed that brilliant mind with the cutting edge of multi-view geometry, NeRFs, and spatial intelligence — where theory meets the real world."
+            },
+            H: {
+                name: "Hufflepuff",
+                emoji: "🦡",
+                color: "#ecb939",
+                title: "The Reliable Pipeliner",
+                desc: "While others chase SOTA, you're building the infrastructure that keeps everything running. Checkpoints? Automated. Monitoring? Dashboarded. Documentation? Chef's kiss. You're the backbone of every ML team — the one who actually reads the error logs and sets up proper CI/CD before anyone starts training.",
+                recommendation: "Automated Data Annotation Suite",
+                recDetail: "Level up your pipeline game with production-grade annotation tools and model monitoring — because the best model is the one that stays deployed."
+            },
+            S: {
+                name: "Slytherin",
+                emoji: "🐍",
+                color: "#1a472a",
+                title: "The Optimization Dark Lord",
+                desc: "Efficiency is your dark art. You quantize models in your sleep, you know every TensorRT trick in the book, and you've been known to shave 3ms off inference time by rewriting a single CUDA kernel. You see constraints not as limitations, but as puzzles — and you always find a way to ship more with less.",
+                recommendation: "TinyML & Edge AI Compiling Toolkit",
+                recDetail: "Take your optimization mastery to the edge — literally. Plus a Model Security Audit to make sure your compressed models are as secure as they are fast."
+            }
+        };
+
+        // ── State ─────────────────────────────────────────
+        let currentQ = 0;
+        let scores = { G: 0, R: 0, H: 0, S: 0 };
+
+        // ── DOM Refs ──────────────────────────────────────
+        const quizArea = document.getElementById('quiz-area');
+        const emailArea = document.getElementById('email-area');
+        const resultsArea = document.getElementById('results-area');
+        const progressContainer = document.getElementById('progress-container');
+        const progressText = document.getElementById('progress-text');
+        const progressPct = document.getElementById('progress-pct');
+        const progressFill = document.getElementById('progress-fill');
+        const emailInput = document.getElementById('email-input');
+        const emailSubmit = document.getElementById('email-submit');
+        const emailError = document.getElementById('email-error');
+
+        // ── Render Question ───────────────────────────────
+        function renderQuestion(idx) {
+            const q = questions[idx];
+            const pct = Math.round((idx / questions.length) * 100);
+            progressText.textContent = `Question ${idx + 1} of ${questions.length}`;
+            progressPct.textContent = pct + '%';
+            progressFill.style.width = pct + '%';
+
+            quizArea.innerHTML = `
+                <div class="question-card">
+                    <div class="question-number">Question ${idx + 1} of ${questions.length}</div>
+                    <div class="question-text">${q.text}</div>
+                    <div class="answers">
+                        ${q.answers.map((a, i) => `
+                            <button class="answer-btn" data-index="${i}">${a.text}</button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Attach click handlers
+            quizArea.querySelectorAll('.answer-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const answerIdx = parseInt(this.dataset.index);
+                    const answerScores = q.answers[answerIdx].scores;
+
+                    // Add scores
+                    scores.G += answerScores.G;
+                    scores.R += answerScores.R;
+                    scores.H += answerScores.H;
+                    scores.S += answerScores.S;
+
+                    // Visual feedback
+                    this.classList.add('selected');
+
+                    // Next question or email capture
+                    setTimeout(() => {
+                        currentQ++;
+                        if (currentQ < questions.length) {
+                            renderQuestion(currentQ);
+                        } else {
+                            showEmailCapture();
+                        }
+                    }, 350);
+                });
+            });
+        }
+
+        // ── Show Email Capture ────────────────────────────
+        function showEmailCapture() {
+            progressFill.style.width = '100%';
+            progressPct.textContent = '100%';
+            progressText.textContent = 'Quiz Complete!';
+            quizArea.classList.add('hidden');
+            emailArea.classList.remove('hidden');
+        }
+
+        // ── Email Submit ──────────────────────────────────
+        emailSubmit.addEventListener('click', async function() {
+            const email = emailInput.value.trim();
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                emailError.textContent = 'Please enter a valid email — even SLAM needs a starting point.';
+                emailError.classList.remove('hidden');
+                return;
+            }
+
+            emailError.classList.add('hidden');
+            emailSubmit.disabled = true;
+            emailSubmit.textContent = 'Sorting...';
+
+            // Determine winning house
+            const winner = Object.entries(scores).reduce((a, b) => a[1] >= b[1] ? a : b)[0];
+
+            // Send email + result to worker
+            try {
+                await fetch(WORKER_URL + '/quiz-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        house: houses[winner].name,
+                        scores: scores
+                    })
+                });
+            } catch (e) {
+                // Silently fail — don't block the result reveal
+                console.warn('Email save failed:', e);
+            }
+
+            // Show results regardless
+            showResults(winner);
+        });
+
+        // ── Show Results ──────────────────────────────────
+        function showResults(winner) {
+            const house = houses[winner];
+            emailArea.classList.add('hidden');
+            progressContainer.classList.add('hidden');
+            resultsArea.classList.remove('hidden');
+
+            const total = scores.G + scores.R + scores.H + scores.S;
+
+            resultsArea.innerHTML = `
+                <div class="results-panel">
+                    <div class="house-reveal">
+                        <div class="house-crest" style="background: ${house.color}; border: 3px solid rgba(255,255,255,0.2);">
+                            ${house.emoji}
+                        </div>
+                        <div class="house-name" style="color: ${winner === 'H' ? house.color : house.color}; filter: brightness(1.5);">
+                            ${house.name}
+                        </div>
+                        <div class="house-title">${house.title}</div>
+                    </div>
+
+                    <div class="house-desc">
+                        <p>${house.desc}</p>
+                    </div>
+
+                    <div class="score-breakdown">
+                        ${Object.entries(scores).map(([key, val]) => `
+                            <div class="score-item">
+                                <div class="score-house">${houses[key].emoji} ${houses[key].name}</div>
+                                <div class="score-value" style="color: ${houses[key].color}; filter: brightness(1.8);">${total > 0 ? Math.round((val / total) * 100) : 0}%</div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="recommendation-card">
+                        <h4>📚 Recommended For You</h4>
+                        <p>${house.recommendation}</p>
+                        <p style="color: var(--muted-text); font-weight: 400; font-size: 0.9rem; margin-top: 0.5rem;">${house.recDetail}</p>
+                    </div>
+
+                    <button class="retake-btn" id="retake-btn">🔄 Retake the Quiz</button>
+                </div>
+            `;
+
+            document.getElementById('retake-btn').addEventListener('click', function() {
+                currentQ = 0;
+                scores = { G: 0, R: 0, H: 0, S: 0 };
+                resultsArea.classList.add('hidden');
+                resultsArea.innerHTML = '';
+                progressContainer.classList.remove('hidden');
+                quizArea.classList.remove('hidden');
+                renderQuestion(0);
+            });
+        }
+
+        // ── Start ─────────────────────────────────────────
+        renderQuestion(0);
+
+    })();
+    </script>
+
+</body>
+</html>

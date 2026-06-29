@@ -6,3 +6,10 @@ account_id = "b1c802cd267fad92711fcab0ea5ef304"
 
 # The NIM_API_KEY is set via: npx wrangler secret put NIM_API_KEY
 # It is NEVER stored in this file or in source code.
+
+# KV namespace for quiz email leads
+# Create with: npx wrangler kv namespace create QUIZ_EMAILS
+# Then paste the returned id below
+[[kv_namespaces]]
+binding = "QUIZ_EMAILS"
+id = "PLACEHOLDER_NEEDS_REAL_ID"

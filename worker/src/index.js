@@ -144,11 +144,67 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders });
     }
 
-    // Only POST /analyze
+    // Only accept POST
     const url = new URL(request.url);
-    if (request.method !== "POST" || url.pathname !== "/analyze") {
+    if (request.method !== "POST") {
       return new Response(
-        JSON.stringify({ error: "Not found. Use POST /analyze" }),
+        JSON.stringify({ error: "Method not allowed." }),
+        { status: 405, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // ── Route: POST /quiz-email — save quiz lead to KV ──
+    if (url.pathname === "/quiz-email") {
+      let body;
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(
+          JSON.stringify({ error: "Invalid JSON body." }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      const email = (body.email || "").trim().toLowerCase();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return new Response(
+          JSON.stringify({ error: "Invalid email address." }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      const record = {
+        email,
+        house: body.house || "unknown",
+        scores: body.scores || {},
+        timestamp: new Date().toISOString(),
+        ip: request.headers.get("CF-Connecting-IP") || "unknown",
+      };
+
+      try {
+        // Store in KV with email as key (deduplicates)
+        await env.QUIZ_EMAILS.put(
+          `lead:${email}`,
+          JSON.stringify(record),
+          { expirationTtl: 60 * 60 * 24 * 365 } // 1 year
+        );
+        return new Response(
+          JSON.stringify({ success: true }),
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      } catch (err) {
+        console.error("KV write error:", err);
+        return new Response(
+          JSON.stringify({ error: "Failed to save. Please try again." }),
+          { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+    }
+
+    // ── Route: POST /analyze — NIM resume matcher ───────
+    if (url.pathname !== "/analyze") {
+      return new Response(
+        JSON.stringify({ error: "Not found. Use POST /analyze or POST /quiz-email" }),
         { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }

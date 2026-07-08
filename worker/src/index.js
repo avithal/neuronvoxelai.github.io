@@ -2,6 +2,7 @@
 // NeuronVoxel AI — NVIDIA NIM Proxy Worker
 // Secure backend that holds the resume + API key server-side.
 // Visitors only send a job description; the key never leaves here.
+// Routes: /analyze, /quiz-email, /quiz-event, /quiz-stats, /quiz-leads
 // ──────────────────────────────────────────────────────────────
 
 const ALLOWED_ORIGINS = [

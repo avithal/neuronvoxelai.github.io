@@ -128,10 +128,30 @@ RULES:
 function getCorsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Access-Control-Max-Age": "86400",
   };
+}
+
+// ── Quiz funnel analytics ───────────────────────────────────
+// One JSON counter per UTC day, stored in the same KV namespace under
+// the `stat:` prefix. Read-modify-write is fine at lead-magnet traffic;
+// at high concurrency swap this for a Durable Object counter.
+const VALID_EVENTS = { start: "starts", complete: "completions", email: "emails" };
+
+async function bumpStat(env, type) {
+  const field = VALID_EVENTS[type];
+  if (!field || !env.QUIZ_EMAILS) return;
+  const day = new Date().toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
+  const key = `stat:${day}`;
+  let rec = { starts: 0, completions: 0, emails: 0 };
+  try {
+    const cur = await env.QUIZ_EMAILS.get(key);
+    if (cur) rec = { ...rec, ...JSON.parse(cur) };
+  } catch {}
+  rec[field] = (rec[field] || 0) + 1;
+  await env.QUIZ_EMAILS.put(key, JSON.stringify(rec));
 }
 
 // ── Main handler ────────────────────────────────────────────
@@ -144,8 +164,87 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders });
     }
 
-    // Only accept POST
     const url = new URL(request.url);
+    const json = (obj, status = 200) =>
+      new Response(JSON.stringify(obj), {
+        status,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+
+    // ── Route: GET /quiz-stats — public funnel numbers ──
+    if (request.method === "GET" && url.pathname === "/quiz-stats") {
+      const totals = { starts: 0, completions: 0, emails: 0 };
+      const byDay = {};
+      try {
+        const list = await env.QUIZ_EMAILS.list({ prefix: "stat:" });
+        for (const k of list.keys) {
+          const cur = await env.QUIZ_EMAILS.get(k.name);
+          if (!cur) continue;
+          const rec = JSON.parse(cur);
+          const day = k.name.slice(5);
+          byDay[day] = rec;
+          totals.starts += rec.starts || 0;
+          totals.completions += rec.completions || 0;
+          totals.emails += rec.emails || 0;
+        }
+      } catch (err) {
+        console.error("Stats read error:", err);
+        return json({ error: "Failed to read stats." }, 500);
+      }
+      const pct = (n, d) => (d > 0 ? Math.round((n / d) * 1000) / 10 : 0);
+      return json({
+        totals,
+        conversion: {
+          completionRate: pct(totals.completions, totals.starts),
+          emailRate: pct(totals.emails, totals.completions),
+          overallRate: pct(totals.emails, totals.starts),
+        },
+        byDay,
+      });
+    }
+
+    // ── Route: GET /quiz-leads — token-protected CSV export ──
+    if (request.method === "GET" && url.pathname === "/quiz-leads") {
+      const auth = request.headers.get("Authorization") || "";
+      const token = auth.replace(/^Bearer\s+/i, "").trim();
+      if (!env.EXPORT_TOKEN || token !== env.EXPORT_TOKEN) {
+        return json({ error: "Unauthorized." }, 401);
+      }
+      try {
+        const rows = [["email", "house", "timestamp", "scores"]];
+        let cursor;
+        do {
+          const list = await env.QUIZ_EMAILS.list({ prefix: "lead:", cursor });
+          for (const k of list.keys) {
+            const cur = await env.QUIZ_EMAILS.get(k.name);
+            if (!cur) continue;
+            const r = JSON.parse(cur);
+            const csvCell = (v) => `"${String(v).replace(/"/g, '""')}"`;
+            rows.push([
+              csvCell(r.email || ""),
+              csvCell(r.house || ""),
+              csvCell(r.timestamp || ""),
+              csvCell(JSON.stringify(r.scores || {})),
+            ]);
+          }
+          cursor = list.list_complete ? undefined : list.cursor;
+        } while (cursor);
+        const csv = rows.map((r) => r.join(",")).join("\n");
+        return new Response(csv, {
+          status: 200,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "text/csv; charset=utf-8",
+            "Content-Disposition": 'attachment; filename="quiz-leads.csv"',
+          },
+        });
+      } catch (err) {
+        console.error("Leads export error:", err);
+        return json({ error: "Failed to export leads." }, 500);
+      }
+    }
+
+    // Only accept POST for everything below
     if (request.method !== "POST") {
       return new Response(
         JSON.stringify({ error: "Method not allowed." }),
@@ -188,6 +287,7 @@ export default {
           JSON.stringify(record),
           { expirationTtl: 60 * 60 * 24 * 365 } // 1 year
         );
+        await bumpStat(env, "email");
         return new Response(
           JSON.stringify({ success: true }),
           { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -201,11 +301,30 @@ export default {
       }
     }
 
+    // ── Route: POST /quiz-event — funnel analytics beacon ──
+    if (url.pathname === "/quiz-event") {
+      let body;
+      try {
+        body = await request.json();
+      } catch {
+        return json({ error: "Invalid JSON body." }, 400);
+      }
+      if (!VALID_EVENTS[body.type]) {
+        return json({ error: "Invalid event type." }, 400);
+      }
+      try {
+        await bumpStat(env, body.type);
+      } catch (err) {
+        console.error("Stat bump error:", err);
+      }
+      return json({ success: true });
+    }
+
     // ── Route: POST /analyze — NIM resume matcher ───────
     if (url.pathname !== "/analyze") {
-      return new Response(
-        JSON.stringify({ error: "Not found. Use POST /analyze or POST /quiz-email" }),
-        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      return json(
+        { error: "Not found. Use POST /analyze, POST /quiz-email, POST /quiz-event, GET /quiz-stats, or GET /quiz-leads." },
+        404
       );
     }
 

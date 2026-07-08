@@ -1,0 +1,38 @@
+name: Deploy Worker
+
+# Auto-deploys the Cloudflare Worker whenever its code changes on main.
+# Requires one repo secret:  CLOUDFLARE_API_TOKEN
+#   (Repo → Settings → Secrets and variables → Actions → New repository secret)
+# The token needs the "Edit Cloudflare Workers" permission. The account_id
+# already lives in worker/wrangler.toml, so no extra secret is needed for it.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "worker/**"
+      - ".github/workflows/deploy-worker.yml"
+  workflow_dispatch: {}   # allow manual runs from the Actions tab
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: worker
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy to Cloudflare
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

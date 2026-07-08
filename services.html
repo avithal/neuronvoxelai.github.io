@@ -1,705 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="NeuronVoxel AI — Advanced Computer Vision, Medical Imaging, and Production ML solutions. Paste a job description to see how our skills match your needs.">
-    <meta property="og:title" content="NeuronVoxel AI | Intelligent Solutions">
-    <meta property="og:description"
-        content="Senior Computer Vision expertise — 10+ years in perception systems, medical imaging, and edge deployment.">
-    <meta property="og:type" content="website">
-    <title>NeuronVoxel AI | Services</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0b0914;
-            --card-bg: #141126;
-            --card-bg-elevated: #1a1533;
-            --text-color: #f1f0f5;
-            --accent-purple: #7a42b8;
-            --accent-purple-glow: rgba(122, 66, 184, 0.35);
-            --accent-green: #34d399;
-            --accent-amber: #fbbf24;
-            --accent-red: #f87171;
-            --muted-text: #a39fb8;
-            --border-subtle: rgba(122, 66, 184, 0.15);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .logo-container {
-            text-align: center;
-        }
-
-        .logo {
-            max-width: 380px;
-            width: 100%;
-            height: auto;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 0.5rem;
-            background: var(--card-bg-elevated);
-            padding: 0.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .nav-tab {
-            color: var(--muted-text);
-            text-decoration: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .nav-tab:hover {
-            color: var(--text-color);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .nav-tab.active {
-            background: var(--accent-purple);
-            color: #fff;
-            box-shadow: 0 4px 12px var(--accent-purple-glow);
-        }
-
-        main {
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-            flex: 1;
-        }
-
-        .hero {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 4rem auto;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff 30%, #c084fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--muted-text);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-purple);
-            box-shadow: 0 8px 32px var(--accent-purple-glow);
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .card p {
-            color: var(--muted-text);
-        }
-
-        /* ── AI Skills Match Section ─────────────────────── */
-        .ai-match-section {
-            margin-bottom: 4rem;
-        }
-
-        .ai-match-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .ai-match-header h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #c084fc 0%, #7a42b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .ai-match-header p {
-            color: var(--muted-text);
-            font-size: 1.1rem;
-        }
-
-        .ai-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(122, 66, 184, 0.15);
-            border: 1px solid rgba(122, 66, 184, 0.3);
-            border-radius: 100px;
-            padding: 0.35rem 1rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #c084fc;
-            margin-bottom: 1rem;
-            letter-spacing: 0.02em;
-        }
-
-        .ai-badge svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .ai-match-container {
-            background: linear-gradient(145deg, var(--card-bg) 0%, #1a1436 100%);
-            border: 1px solid var(--border-subtle);
-            border-radius: 16px;
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ai-match-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
-        }
-
-        #job-description {
-            width: 100%;
-            min-height: 180px;
-            background: rgba(11, 9, 20, 0.6);
-            border: 1px solid rgba(122, 66, 184, 0.2);
-            border-radius: 12px;
-            padding: 1.25rem;
-            color: var(--text-color);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            resize: vertical;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        #job-description:focus {
-            outline: none;
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 0 3px var(--accent-purple-glow);
-        }
-
-        #job-description::placeholder {
-            color: rgba(163, 159, 184, 0.5);
-        }
-
-        .char-count {
-            text-align: right;
-            font-size: 0.75rem;
-            color: var(--muted-text);
-            margin-top: 0.5rem;
-            opacity: 0.6;
-        }
-
-        .submit-row {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        #analyze-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, #7a42b8 0%, #9333ea 100%);
-            color: #fff;
-            border: none;
-            padding: 0.85rem 2rem;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        #analyze-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px var(--accent-purple-glow);
-        }
-
-        #analyze-btn:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
-        #analyze-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn-spinner {
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            display: none;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        #cooldown-msg {
-            font-size: 0.85rem;
-            color: var(--muted-text);
-            display: none;
-        }
-
-        /* ── Error state ────────────────────────────── */
-        #error-panel {
-            display: none;
-            background: rgba(248, 113, 113, 0.08);
-            border: 1px solid rgba(248, 113, 113, 0.25);
-            border-radius: 10px;
-            padding: 1rem 1.25rem;
-            margin-top: 1.5rem;
-            color: var(--accent-red);
-            font-size: 0.95rem;
-        }
-
-        /* ── Results panel ──────────────────────────── */
-        #results-panel {
-            display: none;
-            margin-top: 2rem;
-            animation: fadeSlideIn 0.5s ease-out;
-        }
-
-        @keyframes fadeSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .results-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
-            margin-bottom: 2rem;
-        }
-
-        .results-content {
-            line-height: 1.8;
-            font-size: 0.95rem;
-        }
-
-        /* Markdown-rendered elements inside results */
-        .results-content h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 1.5rem 0 0.75rem;
-            color: #fff;
-        }
-
-        .results-content h2:first-child {
-            margin-top: 0;
-        }
-
-        .results-content h3 {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin: 1.25rem 0 0.5rem;
-            color: #e2ddf5;
-        }
-
-        .results-content p {
-            margin-bottom: 0.75rem;
-            color: var(--muted-text);
-        }
-
-        .results-content strong {
-            color: #fff;
-        }
-
-        .results-content ul,
-        .results-content ol {
-            margin: 0.5rem 0 1rem 1.5rem;
-            color: var(--muted-text);
-        }
-
-        .results-content li {
-            margin-bottom: 0.35rem;
-        }
-
-        .results-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-            font-size: 0.9rem;
-        }
-
-        .results-content th {
-            text-align: left;
-            padding: 0.65rem 1rem;
-            background: rgba(122, 66, 184, 0.15);
-            color: #c084fc;
-            font-weight: 600;
-            border-bottom: 1px solid rgba(122, 66, 184, 0.3);
-        }
-
-        .results-content td {
-            padding: 0.6rem 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--muted-text);
-        }
-
-        .results-content tr:hover td {
-            background: rgba(122, 66, 184, 0.06);
-        }
-
-        .results-content code {
-            background: rgba(122, 66, 184, 0.15);
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.85em;
-            color: #c084fc;
-        }
-
-        .powered-by {
-            text-align: right;
-            margin-top: 1.5rem;
-            font-size: 0.75rem;
-            color: rgba(163, 159, 184, 0.4);
-        }
-
-        /* ── CTA ────────────────────────────────────── */
-        .cta-section {
-            text-align: center;
-            background: linear-gradient(135deg, #141126 0%, #1d143a 100%);
-            border: 1px solid rgba(122, 66, 184, 0.2);
-            border-radius: 16px;
-            padding: 3rem 2rem;
-            max-width: 800px;
-            margin: 0 auto 4rem auto;
-        }
-
-        .cta-section h2 {
-            margin-bottom: 1rem;
-        }
-
-        .cta-section p {
-            color: var(--muted-text);
-            margin-bottom: 1.5rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--accent-purple);
-            color: #fff;
-            text-decoration: none;
-            padding: 0.75rem 2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: background-color 0.2s, transform 0.15s;
-        }
-
-        .btn:hover {
-            background-color: #8e54cf;
-            transform: translateY(-2px);
-        }
-
-        footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 2rem 1rem;
-            text-align: center;
-            color: var(--muted-text);
-            font-size: 0.9rem;
-        }
-
-        /* ── Responsive ─────────────────────────────── */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 1.75rem;
-            }
-
-            .ai-match-header h2 {
-                font-size: 1.5rem;
-            }
-
-            .ai-match-container {
-                padding: 1.5rem;
-            }
-
-            #job-description {
-                min-height: 140px;
-            }
-
-            .submit-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            #analyze-btn {
-                justify-content: center;
-            }
-
-            .results-content table {
-                font-size: 0.8rem;
-            }
-
-            .results-content th,
-            .results-content td {
-                padding: 0.5rem 0.6rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 1.4rem;
-            }
-
-            .ai-match-container {
-                padding: 1rem;
-            }
-
-            .results-content h2 {
-                font-size: 1.2rem;
-            }
-        }
-    
-        /* ── Services Specific Styles ─────────────────────── */
-        .card-tier {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-purple);
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .card-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 16px;
-        }
-
-        .card-price {
-            font-size: 36px;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--border-subtle);
-            padding-bottom: 24px;
-        }
-
-        .card-price span {
-            font-size: 16px;
-            color: var(--muted-text);
-            font-weight: 400;
-        }
-
-        .card-features {
-            list-style: none;
-            margin-bottom: 40px;
-            flex-grow: 1;
-            padding-left: 0;
-        }
-
-        .card-features li {
-            margin-bottom: 14px;
-            font-size: 15px;
-            color: var(--muted-text);
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .card-features li::before {
-            content: "✓";
-            color: var(--accent-green);
-            font-weight: bold;
-            margin-right: 12px;
-            display: inline-block;
-        }
-
-        .tech-stack {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 1rem;
-            border-top: 1px solid var(--border-subtle);
-            text-align: center;
-        }
-
-        .tech-stack h2 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--muted-text);
-            margin-bottom: 30px;
-        }
-
-        .tech-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 16px;
-        }
-
-        .tech-tag {
-            background-color: var(--card-bg-elevated);
-            border: 1px solid var(--border-subtle);
-            padding: 8px 18px;
-            border-radius: 6px;
-            font-size: 14px;
-            color: var(--text-color);
-            font-family: monospace;
-        }
-
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
 </head>
-
 <body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #0b0914; color: #f1f0f5; font-family: 'Inter', -apple-system, sans-serif; line-height: 1.6; }
+  a { color: #c084fc; } a:hover { color: #e2d5ff; }
+</style>
+</helmet>
 
-<header>
-        <div class="logo-container">
-            <img src="logo.svg" alt="NeuronVoxel AI Logo" class="logo">
-        </div>
-        <nav class="nav-tabs">
-            <a href="index.html" class="nav-tab">Home</a>
-            <a href="services.html" class="nav-tab active">Services</a>
-            <a href="quiz.html" class="nav-tab">Quiz</a>
-        </nav>
-    </header>
+<header data-screen-label="Header" style="max-width:1200px;margin:0 auto;padding:36px 16px 8px;display:flex;flex-direction:column;align-items:center;gap:22px">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center">
+    <img src="logo-mark-bright.png" alt="NeuronVoxel AI brain mark" style="width:104px;height:auto;filter:drop-shadow(0 0 24px rgba(122,66,184,0.45))">
+    <div style="font-size:30px;font-weight:800;letter-spacing:2px;line-height:1.1"><span style="color:#ffffff">NEURON</span><span style="color:#c084fc">VOXEL</span><span style="color:#ffffff"> AI</span></div>
+    <div style="color:#a39fb8;font-size:13px;font-weight:600;letter-spacing:6px;text-transform:uppercase">Robust Vision Systems</div>
+  </div>
+  <nav style="display:flex;gap:8px;background:#1a1533;padding:8px;border-radius:12px;border:1px solid rgba(122,66,184,0.15)">
+    <a href="Home.dc.html" style="color:#a39fb8;text-decoration:none;padding:8px 24px;border-radius:8px;font-weight:500" style-hover="color:#ffffff;background:rgba(255,255,255,0.05)">Home</a>
+    <a href="Services.dc.html" style="color:#ffffff;text-decoration:none;padding:8px 24px;border-radius:8px;font-weight:500;background:#7a42b8;box-shadow:0 4px 12px rgba(122,66,184,0.35)">Services</a>
+    <a href="Quiz.dc.html" style="color:#a39fb8;text-decoration:none;padding:8px 24px;border-radius:8px;font-weight:500" style-hover="color:#ffffff;background:rgba(255,255,255,0.05)">Quiz</a>
+  </nav>
+</header>
 
-<main>
-<section class="hero">
-        <h1>Production-Grade Computer Vision Pipelines</h1>
-        <p>Moving machine learning models out of the research sandbox into robust, accelerated, and horizontally scalable edge and cloud deployment topologies.</p>
-    </section>
+<main style="max-width:1200px;margin:0 auto;padding:40px 16px">
 
-    <section class="grid">
-        <!-- Tier 1 -->
-        <div class="card">
-            <div class="card-tier">Consulting & Audit</div>
-            <div class="card-title">Hourly / T&M</div>
-            <div class="card-price">$250 <span>/ hour</span></div>
-            <ul class="card-features">
-                <li>Discovery phases & technical feasibility assessments</li>
-                <li>Architectural reviews & optimization audits</li>
-                <li>Custom CUDA kernel & TensorRT memory bottlenecks isolation</li>
-                <li>On-demand strategic problem solving</li>
-            </ul>
-            <a href="mailto:info@neuronvoxelai.com?subject=Consulting%20%26%20Audit%20—%20Hourly%20%2F%20T%26M%20Engagement&body=Hi%20NeuronVoxel%20AI%2C%0A%0AI%27m%20interested%20in%20the%20Consulting%20%26%20Audit%20(Hourly%20%2F%20T%26M)%20service.%0A%0AHere%27s%20a%20brief%20outline%20of%20my%20problem%3A%0A%0A%5BPlease%20describe%20your%20challenge%20—%20e.g.%20architecture%20review%2C%20optimization%20audit%2C%20feasibility%20assessment%5D%0A%0AThanks!" class="btn btn-outline">Engage Advisor</a>
-        </div>
+  <section data-screen-label="Services hero" style="text-align:center;max-width:800px;margin:0 auto 56px auto">
+    <h1 style="font-size:clamp(1.7rem,4vw,2.5rem);margin:0 0 16px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#fff 30%,#c084fc 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Production-Grade Computer Vision Pipelines</h1>
+    <p style="font-size:1.25rem;color:#a39fb8;margin:0;text-wrap:pretty">Moving machine learning models out of the research sandbox into robust, accelerated, and horizontally scalable edge and cloud deployments.</p>
+  </section>
 
-        <!-- Tier 2 -->
-        <div class="card" >
-            <div class="card-tier" >Full Stack Pipeline</div>
-            <div class="card-title">Project-Based</div>
-            <div class="card-price">$50,000+ <span>/ milestone initial</span></div>
-            <ul class="card-features">
-                <li>End-to-end automated visual data pipelines (ETL)</li>
-                <li>Custom neural network fine-tuning (Transformers / CNNs)</li>
-                <li>Containerized MLOps environment & drift detection monitoring</li>
-                <li>Hardened edge deployment deployment or auto-scaling cloud microservices</li>
-            </ul>
-            <a href="mailto:info@neuronvoxelai.com?subject=Full%20Stack%20Pipeline%20—%20Project-Based%20Engagement&body=Hi%20NeuronVoxel%20AI%2C%0A%0AI%27m%20interested%20in%20the%20Full%20Stack%20Pipeline%20(Project-Based)%20service.%0A%0AHere%27s%20a%20brief%20outline%20of%20my%20project%3A%0A%0A%5BPlease%20describe%20your%20project%20—%20e.g.%20end-to-end%20CV%20pipeline%2C%20model%20fine-tuning%2C%20edge%20deployment%2C%20MLOps%20setup%5D%0A%0AEstimated%20timeline%3A%20%0ABudget%20range%3A%20%0A%0AThanks!" class="btn">Scope Project</a>
-        </div>
+  <section data-screen-label="Pricing tiers" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;margin-bottom:64px">
 
-        <!-- Tier 3 -->
-        <div class="card">
-            <div class="card-tier">Leadership & Scale</div>
-            <div class="card-title">Fractional CTO / Lead</div>
-            <div class="card-price">$8,500 <span>/ month retainer</span></div>
-            <ul class="card-features">
-                <li>Dedicated strategic tech governance (10-15h/week)</li>
-                <li>Oversight and code reviews for in-house engineering squads</li>
-                <li>Infrastructure partner vetting and vendor negotiations</li>
-                <li>Critical production incident escalation priority</li>
-            </ul>
-            <a href="mailto:info@neuronvoxelai.com?subject=Fractional%20CTO%20%2F%20Lead%20—%20Monthly%20Retainer&body=Hi%20NeuronVoxel%20AI%2C%0A%0AI%27m%20interested%20in%20the%20Fractional%20CTO%20%2F%20Lead%20(Monthly%20Retainer)%20service.%0A%0AHere%27s%20a%20brief%20outline%20of%20what%20I%20need%3A%0A%0A%5BPlease%20describe%20your%20situation%20—%20e.g.%20team%20size%2C%20current%20tech%20stack%2C%20key%20challenges%2C%20what%20you%20need%20from%20a%20technical%20leader%5D%0A%0AThanks!" class="btn btn-outline">Secure Retainer</a>
-        </div>
-    </section>
+    <div style="display:flex;flex-direction:column;background:#141126;border:1px solid rgba(122,66,184,0.15);border-radius:12px;padding:32px;transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s" style-hover="transform:translateY(-4px);border-color:#7a42b8;box-shadow:0 8px 32px rgba(122,66,184,0.35)">
+      <div style="color:#c084fc;font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Consulting &amp; Audit</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:12px">Hourly / T&amp;M</div>
+      <div style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:20px">$250 <span style="font-size:0.95rem;font-weight:500;color:#a39fb8">/ hour</span></div>
+      <ul style="list-style:none;margin:0 0 28px;padding:0;color:#a39fb8;display:flex;flex-direction:column;gap:12px;flex:1">
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>Discovery phases &amp; technical feasibility assessments</li>
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>Architectural reviews &amp; optimization audits</li>
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>Custom CUDA kernel &amp; TensorRT memory bottleneck isolation</li>
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>On-demand strategic problem solving</li>
+      </ul>
+      <a href="/cdn-cgi/l/email-protection#b2dbdcd4ddf2dcd7c7c0dddcc4ddcad7ded3db9cd1dddf8dc1c7d0d8d7d1c68ff1dddcc1c7dec6dbdcd5978082978084978082f3c7d6dbc6978082503226978082faddc7c0decb9780829780f4978082e6978084ff978082f7dcd5d3d5d7dfd7dcc694d3dfc289d0ddd6cb8ffadb978082fcd7c7c0dddce4ddcad7de978082f3fb9780f19782f39782f3fb978085df978082dbdcc6d7c0d7c1c6d7d6978082dbdc978082c6dad7978082f1dddcc1c7dec6dbdcd5978082978084978082f3c7d6dbc69780829afaddc7c0decb9780829780f4978082e6978084ff9b978082c1d7c0c4dbd1d79c9782f39782f3fad7c0d7978085c1978082d3978082d0c0dbd7d4978082ddc7c6dedbdcd7978082ddd4978082dfcb978082c2c0ddd0ded7df9781f39782f39782f39787f0e2ded7d3c1d7978082d6d7c1d1c0dbd0d7978082cbddc7c0978082d1dad3deded7dcd5d79787f69782f39782f3e6dad3dcd9c193" style="display:block;text-align:center;background:transparent;border:1px solid #7a42b8;color:#c084fc;text-decoration:none;padding:12px 32px;border-radius:8px;font-weight:600;transition:background-color 0.2s,transform 0.15s" style-hover="background:rgba(122,66,184,0.15);transform:translateY(-2px)">Engage Advisor</a>
+    </div>
 
-    <section class="tech-stack">
-        <h2>Hardened Production Stack</h2>
-        <div class="tech-grid">
-            <div class="tech-tag">PyTorch</div>
-            <div class="tech-tag">TensorRT</div>
-            <div class="tech-tag">CUDA</div>
-            <div class="tech-tag">OpenCV</div>
-            <div class="tech-tag">Docker / K8s</div>
-            <div class="tech-tag">NVIDIA Jetson / Triton</div>
-            <div class="tech-tag">AWS / GCP MLOps</div>
-        </div>
-    </section>
+    <div style="display:flex;flex-direction:column;background:#141126;border:1px solid rgba(122,66,184,0.4);border-radius:12px;padding:32px;transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s;box-shadow:0 8px 32px rgba(122,66,184,0.2)" style-hover="transform:translateY(-4px);border-color:#7a42b8;box-shadow:0 8px 32px rgba(122,66,184,0.35)">
+      <div style="color:#c084fc;font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Full Stack Pipeline</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:12px">Project-Based</div>
+      <div style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:20px">$50,000+ <span style="font-size:0.95rem;font-weight:500;color:#a39fb8">/ initial milestone</span></div>
+      <ul style="list-style:none;margin:0 0 28px;padding:0;color:#a39fb8;display:flex;flex-direction:column;gap:12px;flex:1">
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>End-to-end automated visual data pipelines (ETL)</li>
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>Custom neural network fine-tuning (Transformers / CNNs)</li>
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>Containerized MLOps environment &amp; drift detection monitoring</li>
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>Hardened edge deployment or auto-scaling cloud microservices</li>
+      </ul>
+      <a href="/cdn-cgi/l/email-protection#563f3830391638332324393820392e333a373f7835393b692523343c3335226b10233a3a736466052237353d736466063f26333a3f3833736466b4d6c27364660624393c3335227b14372533327364661338313731333b33382270373b266d3439322f6b1e3f73646618332324393800392e333a736466171f7364157366177366171f7364613b7364663f3822332433252233327364663f38736466223e3373646610233a3a736466052237353d736466063f26333a3f38337364667e0624393c3335227b14372533327f736466253324203f3533787366177366171e332433736461257364663773646634243f33307364663923223a3f383373646639307364663b2f7364662624393c333522736517736617736617736314063a3337253373646632332535243f34337364662f3923247364662624393c3335227363127366177366171325223f3b37223332736466223f3b333a3f38337365177364667366171423323133227364662437383133736517736466736617736617023e37383d2577" style="display:block;text-align:center;background:#7a42b8;color:#fff;text-decoration:none;padding:12px 32px;border-radius:8px;font-weight:600;transition:background-color 0.2s,transform 0.15s" style-hover="background:#8e54cf;transform:translateY(-2px)">Scope Project</a>
+    </div>
+
+    <div style="display:flex;flex-direction:column;background:#141126;border:1px solid rgba(122,66,184,0.15);border-radius:12px;padding:32px;transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s" style-hover="transform:translateY(-4px);border-color:#7a42b8;box-shadow:0 8px 32px rgba(122,66,184,0.35)">
+      <div style="color:#c084fc;font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Leadership &amp; Scale</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:12px">Fractional CTO / Lead</div>
+      <div style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:20px">$8,500 <span style="font-size:0.95rem;font-weight:500;color:#a39fb8">/ month retainer</span></div>
+      <ul style="list-style:none;margin:0 0 28px;padding:0;color:#a39fb8;display:flex;flex-direction:column;gap:12px;flex:1">
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>Dedicated strategic tech governance (10–15h/week)</li>
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>Oversight and code reviews for in-house engineering squads</li>
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>Infrastructure partner vetting and vendor negotiations</li>
+        <li style="padding-left:24px;position:relative"><span style="position:absolute;left:0;color:#34d399">✓</span>Critical production incident escalation priority</li>
+      </ul>
+      <a href="/cdn-cgi/l/email-protection#2841464e4768464d5d5a47465e47504d444941064b4745175b5d4a424d4b5c156e5a494b5c41474649440d1a186b7c670d1a180d1a6e0d1a18644d494c0d1a18caa8bc0d1a186547465c4044510d1a187a4d5c4941464d5a0e494558134a474c511560410d1a18664d5d5a47467e47504d440d1a1869610d1a6b0d18690d1869610d1a1f450d1a1841465c4d5a4d5b5c4d4c0d1a1841460d1a185c404d0d1a186e5a494b5c41474649440d1a186b7c670d1a180d1a6e0d1a18644d494c0d1a18006547465c4044510d1a187a4d5c4941464d5a010d1a185b4d5a5e414b4d060d18690d1869604d5a4d0d1a1f5b0d1a18490d1a184a5a414d4e0d1a18475d5c4441464d0d1a18474e0d1a185f40495c0d1a18610d1a18464d4d4c0d1b690d18690d18690d1d6a78444d495b4d0d1a184c4d5b4b5a414a4d0d1a1851475d5a0d1a185b415c5d495c4147460d1d6c0d18690d18697c404946435b09" style="display:block;text-align:center;background:transparent;border:1px solid #7a42b8;color:#c084fc;text-decoration:none;padding:12px 32px;border-radius:8px;font-weight:600;transition:background-color 0.2s,transform 0.15s" style-hover="background:rgba(122,66,184,0.15);transform:translateY(-2px)">Secure Retainer</a>
+    </div>
+  </section>
+
+  <section data-screen-label="Tech stack" style="text-align:center;margin-bottom:64px">
+    <h2 style="font-weight:800;margin:0 0 24px">Hardened Production Stack</h2>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:800px;margin:0 auto">
+      <div style="background:rgba(122,66,184,0.12);border:1px solid rgba(122,66,184,0.3);border-radius:100px;padding:8px 20px;color:#e2ddf5;font-weight:500;font-size:0.95rem">PyTorch</div>
+      <div style="background:rgba(122,66,184,0.12);border:1px solid rgba(122,66,184,0.3);border-radius:100px;padding:8px 20px;color:#e2ddf5;font-weight:500;font-size:0.95rem">TensorRT</div>
+      <div style="background:rgba(122,66,184,0.12);border:1px solid rgba(122,66,184,0.3);border-radius:100px;padding:8px 20px;color:#e2ddf5;font-weight:500;font-size:0.95rem">CUDA</div>
+      <div style="background:rgba(122,66,184,0.12);border:1px solid rgba(122,66,184,0.3);border-radius:100px;padding:8px 20px;color:#e2ddf5;font-weight:500;font-size:0.95rem">OpenCV</div>
+      <div style="background:rgba(122,66,184,0.12);border:1px solid rgba(122,66,184,0.3);border-radius:100px;padding:8px 20px;color:#e2ddf5;font-weight:500;font-size:0.95rem">Docker / K8s</div>
+      <div style="background:rgba(122,66,184,0.12);border:1px solid rgba(122,66,184,0.3);border-radius:100px;padding:8px 20px;color:#e2ddf5;font-weight:500;font-size:0.95rem">NVIDIA Jetson / Triton</div>
+      <div style="background:rgba(122,66,184,0.12);border:1px solid rgba(122,66,184,0.3);border-radius:100px;padding:8px 20px;color:#e2ddf5;font-weight:500;font-size:0.95rem">AWS / GCP MLOps</div>
+    </div>
+  </section>
 </main>
 
-<footer>
-        <p>&copy; 2026 NeuronVoxel AI. All rights reserved.</p>
-    </footer>
-
-</body>
+<footer style="border-top:1px solid rgba(255,255,255,0.05);padding:32px 16px;text-align:center;color:#a39fb8;font-size:0.9rem">
+  <p style="margin:0">© 2026 NeuronVoxel AI · Robust Vision Systems</p>
+</footer>
+</x-dc>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
 </html>

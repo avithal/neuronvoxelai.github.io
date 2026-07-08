@@ -6,6 +6,12 @@ account_id = "b1c802cd267fad92711fcab0ea5ef304"
 
 # The NIM_API_KEY is set via: npx wrangler secret put NIM_API_KEY
 # It is NEVER stored in this file or in source code.
+#
+# EXPORT_TOKEN protects GET /quiz-leads (CSV lead export). Set with:
+#   npx wrangler secret put EXPORT_TOKEN
+# Then export leads with:
+#   curl -H "Authorization: Bearer <token>" \
+#     https://neuronvoxel-nim-proxy.neuronvoxelai.workers.dev/quiz-leads -o leads.csv
 
 # KV namespace for quiz email leads
 # Create with: npx wrangler kv namespace create QUIZ_EMAILS

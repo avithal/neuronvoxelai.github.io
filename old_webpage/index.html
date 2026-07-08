@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="NeuronVoxel AI — Advanced Computer Vision, Medical Imaging, and Production ML solutions. Paste a job description to see how our skills match your needs.">
+    <meta property="og:title" content="NeuronVoxel AI | Intelligent Solutions">
+    <meta property="og:description"
+        content="Senior Computer Vision expertise — 10+ years in perception systems, medical imaging, and edge deployment.">
+    <meta property="og:type" content="website">
+    <title>NeuronVoxel AI | Intelligent Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0914;
+            --card-bg: #141126;
+            --card-bg-elevated: #1a1533;
+            --text-color: #f1f0f5;
+            --accent-purple: #7a42b8;
+            --accent-purple-glow: rgba(122, 66, 184, 0.35);
+            --accent-green: #34d399;
+            --accent-amber: #fbbf24;
+            --accent-red: #f87171;
+            --muted-text: #a39fb8;
+            --border-subtle: rgba(122, 66, 184, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo-container {
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 380px;
+            width: 100%;
+            height: auto;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--card-bg-elevated);
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .nav-tab {
+            color: var(--muted-text);
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-purple);
+            color: #fff;
+            box-shadow: 0 4px 12px var(--accent-purple-glow);
+        }
+
+        main {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            flex: 1;
+        }
+
+        .hero {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 30%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--muted-text);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 8px 32px var(--accent-purple-glow);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: var(--muted-text);
+        }
+
+        /* ── AI Skills Match Section ─────────────────────── */
+        .ai-match-section {
+            margin-bottom: 4rem;
+        }
+
+        .ai-match-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .ai-match-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #c084fc 0%, #7a42b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ai-match-header p {
+            color: var(--muted-text);
+            font-size: 1.1rem;
+        }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(122, 66, 184, 0.15);
+            border: 1px solid rgba(122, 66, 184, 0.3);
+            border-radius: 100px;
+            padding: 0.35rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #c084fc;
+            margin-bottom: 1rem;
+            letter-spacing: 0.02em;
+        }
+
+        .ai-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .ai-match-container {
+            background: linear-gradient(145deg, var(--card-bg) 0%, #1a1436 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-match-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+        }
+
+        #job-description {
+            width: 100%;
+            min-height: 180px;
+            background: rgba(11, 9, 20, 0.6);
+            border: 1px solid rgba(122, 66, 184, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        #job-description:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 3px var(--accent-purple-glow);
+        }
+
+        #job-description::placeholder {
+            color: rgba(163, 159, 184, 0.5);
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--muted-text);
+            margin-top: 0.5rem;
+            opacity: 0.6;
+        }
+
+        .submit-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        #analyze-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #7a42b8 0%, #9333ea 100%);
+            color: #fff;
+            border: none;
+            padding: 0.85rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #analyze-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px var(--accent-purple-glow);
+        }
+
+        #analyze-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        #analyze-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #cooldown-msg {
+            font-size: 0.85rem;
+            color: var(--muted-text);
+            display: none;
+        }
+
+        /* ── Error state ────────────────────────────── */
+        #error-panel {
+            display: none;
+            background: rgba(248, 113, 113, 0.08);
+            border: 1px solid rgba(248, 113, 113, 0.25);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            margin-top: 1.5rem;
+            color: var(--accent-red);
+            font-size: 0.95rem;
+        }
+
+        /* ── Results panel ──────────────────────────── */
+        #results-panel {
+            display: none;
+            margin-top: 2rem;
+            animation: fadeSlideIn 0.5s ease-out;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .results-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+            margin-bottom: 2rem;
+        }
+
+        .results-content {
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        /* Markdown-rendered elements inside results */
+        .results-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1.5rem 0 0.75rem;
+            color: #fff;
+        }
+
+        .results-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .results-content h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 1.25rem 0 0.5rem;
+            color: #e2ddf5;
+        }
+
+        .results-content p {
+            margin-bottom: 0.75rem;
+            color: var(--muted-text);
+        }
+
+        .results-content strong {
+            color: #fff;
+        }
+
+        .results-content ul,
+        .results-content ol {
+            margin: 0.5rem 0 1rem 1.5rem;
+            color: var(--muted-text);
+        }
+
+        .results-content li {
+            margin-bottom: 0.35rem;
+        }
+
+        .results-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .results-content th {
+            text-align: left;
+            padding: 0.65rem 1rem;
+            background: rgba(122, 66, 184, 0.15);
+            color: #c084fc;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(122, 66, 184, 0.3);
+        }
+
+        .results-content td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--muted-text);
+        }
+
+        .results-content tr:hover td {
+            background: rgba(122, 66, 184, 0.06);
+        }
+
+        .results-content code {
+            background: rgba(122, 66, 184, 0.15);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #c084fc;
+        }
+
+        .powered-by {
+            text-align: right;
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            color: rgba(163, 159, 184, 0.4);
+        }
+
+        /* ── CTA ────────────────────────────────────── */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, #141126 0%, #1d143a 100%);
+            border: 1px solid rgba(122, 66, 184, 0.2);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .cta-section h2 {
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--muted-text);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-purple);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.15s;
+        }
+
+        .btn:hover {
+            background-color: #8e54cf;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 1rem;
+            text-align: center;
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+
+        /* ── Responsive ─────────────────────────────── */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .ai-match-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .ai-match-container {
+                padding: 1.5rem;
+            }
+
+            #job-description {
+                min-height: 140px;
+            }
+
+            .submit-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #analyze-btn {
+                justify-content: center;
+            }
+
+            .results-content table {
+                font-size: 0.8rem;
+            }
+
+            .results-content th,
+            .results-content td {
+                padding: 0.5rem 0.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.4rem;
+            }
+
+            .ai-match-container {
+                padding: 1rem;
+            }
+
+            .results-content h2 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.svg" alt="NeuronVoxel AI Logo" class="logo">
+        </div>
+        <nav class="nav-tabs">
+            <a href="index.html" class="nav-tab active">Home</a>
+            <a href="services.html" class="nav-tab">Services</a>
+            <a href="quiz.html" class="nav-tab">Quiz</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Advanced Vision & Intelligent Machine Learning Systems</h1>
+            <p>Bridging complex research with production-ready code to solve high-stakes challenges in medical imaging,
+                segmentation, and robotic automation.</p>
+        </section>
+
+        <section class="grid">
+            <div class="card">
+                <h3>Medical Image Computing</h3>
+                <p>Expert processing of 3D modalities (CT, MRI, Microscopy). Specialized in high-accuracy registration
+                    pipelines and neural segmentation architectures like nnU-Net and MONAI.</p>
+            </div>
+            <div class="card">
+                <h3>Robust CV Pipelines</h3>
+                <p>Blending classical computer vision depth with modern deep learning methods to build robust,
+                    reproducible vision systems engineered for critical real-world deployments.</p>
+            </div>
+            <div class="card">
+                <h3>Edge Deployment & Optimization</h3>
+                <p>Tailoring heavy model architectures into light, high-performance engines optimized for hardware
+                    constraints without sacrificing algorithmic precision.</p>
+            </div>
+        </section>
+
+        <!-- ── AI Skills Match Section ──────────────────── -->
+        <section class="ai-match-section" id="ai-skills-match">
+            <div class="ai-match-header">
+                <span class="ai-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M12 2a4 4 0 0 0-4 4v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-2V6a4 4 0 0 0-4-4z" />
+                        <circle cx="12" cy="15" r="2" />
+                    </svg>
+                    Powered by NVIDIA NIM
+                </span>
+                <h2>See How My Skills Match Your Needs</h2>
+                <p>Paste a job description or project requirements below — our AI will instantly analyze the fit.</p>
+            </div>
+
+            <div class="ai-match-container">
+                <label for="job-description"
+                    style="font-weight:600;display:block;margin-bottom:0.75rem;color:#e2ddf5;">Job Description / Project
+                    Requirements</label>
+                <textarea id="job-description"
+                    placeholder="Paste the full job description here...&#10;&#10;Example: We are looking for a Senior Computer Vision Engineer with experience in PyTorch, edge deployment, medical imaging...&#10;&#10;The more detail you provide, the better the analysis."
+                    maxlength="10000" aria-label="Job description input"></textarea>
+                <div class="char-count"><span id="char-count">0</span> / 10,000</div>
+
+                <div class="submit-row">
+                    <button id="analyze-btn" type="button">
+                        <span id="btn-text">Analyze Match</span>
+                        <div class="btn-spinner" id="btn-spinner"></div>
+                    </button>
+                    <span id="cooldown-msg"></span>
+                </div>
+
+                <div id="error-panel" role="alert"></div>
+
+                <div id="results-panel">
+                    <div class="results-divider"></div>
+                    <div class="results-content" id="results-content"></div>
+                    <div class="powered-by">Analysis powered by NVIDIA NIM</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Let's build together</h2>
+            <p>Looking for technical consulting, algorithm design, or production-grade AI system validation?</p>
+            <a href="mailto:avithal@neuronvoxelai.com?cc=avithal@gmail.com" class="btn">Get in Touch</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 NeuronVoxel AI. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (function () {
+            // ── CONFIG ──────────────────────────────────────
+            // Replace this URL after deploying the Cloudflare Worker
+            const WORKER_URL = 'https://neuronvoxel-nim-proxy.neuronvoxelai.workers.dev';
+            const COOLDOWN_SECONDS = 10;
+
+            // ── DOM refs ───────────────────────────────────
+            const textarea = document.getElementById('job-description');
+            const charCount = document.getElementById('char-count');
+            const analyzeBtn = document.getElementById('analyze-btn');
+            const btnText = document.getElementById('btn-text');
+            const btnSpinner = document.getElementById('btn-spinner');
+            const cooldownMsg = document.getElementById('cooldown-msg');
+            const errorPanel = document.getElementById('error-panel');
+            const resultsPanel = document.getElementById('results-panel');
+            const resultsContent = document.getElementById('results-content');
+
+            let isCoolingDown = false;
+
+            // ── Character counter ──────────────────────────
+            textarea.addEventListener('input', function () {
+                charCount.textContent = this.value.length;
+            });
+
+            // ── Simple markdown-to-HTML ────────────────────
+            function renderMarkdown(md) {
+                let html = md
+                    // Escape HTML
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+
+                // Tables
+                html = html.replace(/^(\|.+\|)\n(\|[-|: ]+\|)\n((?:\|.+\|\n?)*)/gm, function (match, header, separator, body) {
+                    const headers = header.split('|').filter(c => c.trim()).map(c => '<th>' + c.trim() + '</th>').join('');
+                    const rows = body.trim().split('\n').map(row => {
+                        const cells = row.split('|').filter(c => c.trim()).map(c => '<td>' + c.trim() + '</td>').join('');
+                        return '<tr>' + cells + '</tr>';
+                    }).join('');
+                    return '<table><thead><tr>' + headers + '</tr></thead><tbody>' + rows + '</tbody></table>';
+                });
+
+                html = html
+                    // Headers
+                    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+                    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+                    // Bold
+                    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                    // Italic
+                    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                    // Inline code
+                    .replace(/`([^`]+)`/g, '<code>$1</code>')
+                    // Unordered lists
+                    .replace(/^[\-\*] (.+)$/gm, '<li>$1</li>')
+                    // Wrap consecutive <li> in <ul>
+                    .replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>')
+                    // Paragraphs (lines that aren't already tags)
+                    .replace(/^(?!<[hultdp/]|$)(.+)$/gm, '<p>$1</p>')
+                    // Clean up extra newlines
+                    .replace(/\n{2,}/g, '\n');
+
+                return html;
+            }
+
+            // ── Cooldown timer ─────────────────────────────
+            function startCooldown() {
+                isCoolingDown = true;
+                analyzeBtn.disabled = true;
+                let remaining = COOLDOWN_SECONDS;
+                cooldownMsg.style.display = 'inline';
+                cooldownMsg.textContent = 'Please wait ' + remaining + 's...';
+
+                const interval = setInterval(function () {
+                    remaining--;
+                    if (remaining <= 0) {
+                        clearInterval(interval);
+                        isCoolingDown = false;
+                        analyzeBtn.disabled = false;
+                        cooldownMsg.style.display = 'none';
+                    } else {
+                        cooldownMsg.textContent = 'Please wait ' + remaining + 's...';
+                    }
+                }, 1000);
+            }
+
+            // ── Loading state ──────────────────────────────
+            function setLoading(loading) {
+                if (loading) {
+                    analyzeBtn.disabled = true;
+                    btnText.textContent = 'Analyzing...';
+                    btnSpinner.style.display = 'inline-block';
+                } else {
+                    btnText.textContent = 'Analyze Match';
+                    btnSpinner.style.display = 'none';
+                    if (!isCoolingDown) analyzeBtn.disabled = false;
+                }
+            }
+
+            // ── Show error ─────────────────────────────────
+            function showError(msg) {
+                errorPanel.textContent = msg;
+                errorPanel.style.display = 'block';
+                resultsPanel.style.display = 'none';
+            }
+
+            function clearError() {
+                errorPanel.style.display = 'none';
+            }
+
+            // ── Main handler (streaming) ──────────────────
+            analyzeBtn.addEventListener('click', async function () {
+                clearError();
+                const jobDesc = textarea.value.trim();
+
+                if (!jobDesc || jobDesc.length < 20) {
+                    showError('Please enter a job description (at least 20 characters).');
+                    return;
+                }
+
+                setLoading(true);
+                resultsPanel.style.display = 'none';
+                resultsContent.innerHTML = '';
+
+                try {
+                    const response = await fetch(WORKER_URL + '/analyze', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ jobDescription: jobDesc }),
+                    });
+
+                    // If error (JSON response), handle it
+                    const contentType = response.headers.get('Content-Type') || '';
+                    if (!response.ok || contentType.includes('application/json')) {
+                        const data = await response.json();
+                        showError(data.error || 'Something went wrong. Please try again.');
+                        setLoading(false);
+                        return;
+                    }
+
+                    // Stream the text response
+                    resultsPanel.style.display = 'block';
+                    resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let fullText = '';
+                    let renderFrame = null;
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+
+                        fullText += decoder.decode(value, { stream: true });
+
+                        // Throttle rendering to ~30fps to avoid jank
+                        if (!renderFrame) {
+                            renderFrame = requestAnimationFrame(function () {
+                                resultsContent.innerHTML = renderMarkdown(fullText);
+                                renderFrame = null;
+                            });
+                        }
+                    }
+
+                    // Final render to catch any remaining content
+                    resultsContent.innerHTML = renderMarkdown(fullText);
+
+                } catch (err) {
+                    showError('Network error — please check your connection and try again.');
+                }
+
+                setLoading(false);
+                startCooldown();
+            });
+
+            // ── Enter key (Ctrl+Enter to submit) ──────────
+            textarea.addEventListener('keydown', function (e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    analyzeBtn.click();
+                }
+            });
+        })();
+    </script>
+
+</body>
+
+</html>

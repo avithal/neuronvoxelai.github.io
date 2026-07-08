@@ -23,6 +23,8 @@ Spawn a sub-agent with the following exact prompt:
 "You are the Builder. Your only job is to create a Harry Potter x 
 computer vision personality quiz.
 
+CADENCE: Run fortnightly (once every two weeks). Each cycle, regenerate/refresh the quiz so the questions stay fresh, then run the LLM-as-judge check below before shipping.
+
 DELIVERABLE: A single self-contained HTML file saved to 
 /outputs/quiz.html
 
@@ -42,7 +44,26 @@ QUIZ SPECS:
 - Hufflepuff Recommendation: "Automated Data Annotation Suite" / Production-grade Model Monitoring tool.
 - Slytherin Recommendation: "TinyML & Edge AI Compiling Toolkit" / Model Security Audit.
 
-When complete, save the changes in /outputs/quiz.html and log 
+## Quiz Rules
+- Total Questions: Exactly 6.
+
+## Required Question Topic Distribution (all 6 questions)
+The 6 questions MUST cover exactly this mix of topics:
+- 2 questions about training a model (loss functions, overfitting, data augmentation, hyperparameters, learning rate).
+- 1 question about deployment (serving, latency, edge/cloud inference, quantization, production model monitoring).
+- 1 question about basic image processing (filtering/blurring, thresholding, color spaces, histograms, morphology, resizing).
+- 2 questions about classical computer vision algorithms that do NOT involve deep learning (SIFT/SURF/ORB, Hough transform, Canny edges, RANSAC, optical flow, Harris corners, template matching, epipolar geometry). These must be non-neural-network methods.
+
+## LLM-as-Judge Verification (run before shipping every cycle)
+After writing quiz.html, run an LLM-as-judge pass over the 6 questions to verify the distribution above. The judge must:
+1. Read the 6 questions from quiz.html.
+2. Classify each into exactly one bucket: training, deployment, basic-image-processing, classical-cv-no-deep-learning.
+3. For the classical-CV bucket, confirm each of those 2 questions does NOT rely on deep learning / neural networks.
+4. Assert the counts are exactly: training = 2, deployment = 1, basic-image-processing = 1, classical-cv-no-deep-learning = 2.
+5. Output a PASS/FAIL verdict plus, per question, its number, assigned bucket, and a one-line justification.
+If the verdict is FAIL, revise the failing question(s) and re-run the judge. Do not ship until PASS. RETRY CAP: at most 3 revise-and-rejudge attempts; if still FAIL after 3, STOP, do not ship, and log "JUDGE FAILED after 3 attempts" plus the last verdict to /outputs/builder-log.md for human review. Log the verdict to /outputs/builder-log.md.
+
+When complete, save the changes in quiz.html and log 
 BUILDER COMPLETE to /outputs/builder-log.md."
 
 Do not proceed to Step 2 until quiz.html exists.
@@ -73,7 +94,7 @@ DELIVERABLE: Write a ranked list of the top 8 content opportunities to /outputs/
 
 When complete, log "SCOUT COMPLETE" to /outputs/scout_log.md.
 Steps 1 and 2 can run in parallel. Do not proceed to Step 3 
-until both /outputs/quiz.html and /outputs/content-ideas.md exist.
+until both quiz.html and /outputs/content-ideas.md exist.
 
 ─────────────────────────────────────────
 STEP 3 — SPAWN AGENT 3: THE GROWTH AGENT
@@ -109,7 +130,7 @@ Do not proceed to Step 4 until all four output files exist.
 STEP 4 — SYNTHESIZE
 ─────────────────────────────────────────
 Read all outputs:
-- /outputs/quiz.html
+- quiz.html
 - /outputs/content-ideas.md
 - /outputs/site-edits.md
 - /outputs/launch-email.md

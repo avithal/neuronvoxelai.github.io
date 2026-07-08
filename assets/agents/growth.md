@@ -10,7 +10,7 @@ TASK 1 — SITE LINK AUDIT
 Go to (https://neuronvoxelai.com) and read the full site. Identify every page or section where a link to the quiz would naturally fit. For each placement write: the exact location (e.g. "homepage hero section, below the headline"), the exact copy to add (ready to paste), and the reason it fits there. Save to /outputs/site-edits.md.
 
 TASK 2 — LAUNCH EMAIL
-Write a complete launch email announcing the quiz to the existing customer list. Include: subject line, preview text, full body copy, and CTA. Tone: casual, fun, pickleball-obsessed. The email should make the quiz sound unmissable without feeling like an ad. Save to /outputs/launch-email.md.
+Write a complete launch email announcing the quiz to the existing customer list. Include: subject line, preview text, full body copy, and CTA. Tone: casual, fun, computer vision-obsessed. The email should make the quiz sound unmissable without feeling like an ad. Save to /outputs/launch-email.md.
 
 TASK 3 — SOCIAL CAPTIONS
 Write three captions — one for x, one for a Reddit computervision subreddit community post, one for a linkedin company post. Each should be native to the platform. The Reddit one should not read like marketing. The linkedin one needs a hook in the first line. Save all three to /outputs/social-captions.md.

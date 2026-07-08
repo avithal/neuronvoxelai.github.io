@@ -100,8 +100,16 @@
         <p style="margin:0;color:#fff;font-weight:600">{{ recommendation }}</p>
         <p style="color:#a39fb8;font-weight:400;font-size:0.9rem;margin:8px 0 0">{{ recDetail }}</p>
       </div>
+      <div style="text-align:center;margin-bottom:24px">
+        <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;color:#a39fb8;margin-bottom:12px">🪄 Share your house</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <a href="{{ shareX }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#1a1533;border:1px solid rgba(122,66,184,0.15);color:#e2ddf5;text-decoration:none;padding:10px 18px;border-radius:10px;font-size:0.85rem;font-weight:600" style-hover="border-color:#7a42b8;background:rgba(122,66,184,0.12);transform:translateY(-2px)">𝕏 Post</a>
+          <a href="{{ shareLinkedIn }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#1a1533;border:1px solid rgba(122,66,184,0.15);color:#e2ddf5;text-decoration:none;padding:10px 18px;border-radius:10px;font-size:0.85rem;font-weight:600" style-hover="border-color:#7a42b8;background:rgba(122,66,184,0.12);transform:translateY(-2px)">in Share</a>
+          <button type="button" onClick="{{ doCopy }}" style="display:inline-flex;align-items:center;gap:6px;background:#1a1533;border:1px solid {{ copyBorder }};color:{{ copyColor }};padding:10px 18px;border-radius:10px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif" style-hover="border-color:#7a42b8;background:rgba(122,66,184,0.12);transform:translateY(-2px)">{{ copyLabel }}</button>
+        </div>
+      </div>
       <div style="text-align:center">
-        <button type="button" onClick="{{ retake }}" style="background:transparent;border:1px solid #7a42b8;color:#c084fc;padding:12px 28px;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif" style-hover="background:rgba(122,66,184,0.15)">🔄 Retake the Quiz</button>
+        <button type="button" onClick="{{ retake }}" style="background:transparent;border:1px solid #7a42b8;color:#c084fc;padding:12px 28px;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif" style-hover="background:rgba(122,66,184,0.15)">{{ retakeLabel }}</button>
       </div>
     </div>
   </sc-if>
@@ -113,7 +121,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;workerUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://neuronvoxel-nim-proxy.neuronvoxelai.workers.dev&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Integration&quot;}}">
 class Component extends DCLogic {
-  state = { phase: 'quiz', currentQ: 0, scores: { G: 0, R: 0, H: 0, S: 0 }, selected: -1, email: '', emailError: '', sorting: false, winner: null };
+  state = { phase: 'quiz', currentQ: 0, scores: { G: 0, R: 0, H: 0, S: 0 }, selected: -1, email: '', emailError: '', sorting: false, winner: null, deepLinked: false, copied: false };
 
   questions = [
     { text: "Your GPU cluster catches fire during training at epoch 847 of 850. What's your move?",
@@ -183,6 +191,49 @@ class Component extends DCLogic {
     return this.props.workerUrl ?? 'https://neuronvoxel-nim-proxy.neuronvoxelai.workers.dev';
   }
 
+  // ── Funnel analytics beacon (fire-and-forget) ──
+  track(type) {
+    try {
+      const url = this.workerUrl() + '/quiz-event';
+      const payload = JSON.stringify({ type });
+      if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+        navigator.sendBeacon(url, new Blob([payload], { type: 'application/json' }));
+      } else {
+        fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(() => {});
+      }
+    } catch (e) { /* never block the quiz on analytics */ }
+  }
+
+  // A ?house=G|R|H|S deep link (from a share) lands straight on that house.
+  componentDidMount() {
+    let house = null;
+    try { house = new URLSearchParams(window.location.search).get('house'); } catch (e) {}
+    if (house && this.houses[house]) {
+      this.setState({ phase: 'results', winner: house, deepLinked: true });
+    } else {
+      this.track('start');
+    }
+  }
+
+  shareLink() {
+    const w = this.state.winner;
+    if (typeof window === 'undefined') return '';
+    return window.location.origin + window.location.pathname + (w ? '?house=' + w : '');
+  }
+
+  copyLink() {
+    const link = this.shareLink();
+    const done = () => {
+      this.setState({ copied: true });
+      setTimeout(() => this.setState({ copied: false }), 2000);
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(link).then(done).catch(done);
+      } else { done(); }
+    } catch (e) { done(); }
+  }
+
   // bright display variants for dark house colors (crest keeps the original)
   displayColor(key) {
     return { G: '#f06a6a', R: '#5c7fd4', H: '#ecb939', S: '#3fa06a' }[key];
@@ -197,11 +248,13 @@ class Component extends DCLogic {
       scores: { G: s.scores.G + sc.G, R: s.scores.R + sc.R, H: s.scores.H + sc.H, S: s.scores.S + sc.S }
     }));
     setTimeout(() => {
-      this.setState(s => {
-        const next = s.currentQ + 1;
-        if (next < this.questions.length) return { currentQ: next, selected: -1 };
-        return { phase: 'email', selected: -1 };
-      });
+      const next = this.state.currentQ + 1;
+      if (next < this.questions.length) {
+        this.setState({ currentQ: next, selected: -1 });
+      } else {
+        this.track('complete');
+        this.setState({ phase: 'email', selected: -1 });
+      }
     }, 350);
   }
 
@@ -226,13 +279,22 @@ class Component extends DCLogic {
   }
 
   renderVals() {
-    const { phase, currentQ, scores, selected, email, emailError, sorting, winner } = this.state;
+    const { phase, currentQ, scores, selected, email, emailError, sorting, winner, deepLinked, copied } = this.state;
     const total = this.questions.length;
     const pct = phase === 'quiz' ? Math.round((currentQ / total) * 100) : 100;
     const q = this.questions[Math.min(currentQ, total - 1)];
     const house = winner ? this.houses[winner] : null;
     const scoreTotal = scores.G + scores.R + scores.H + scores.S;
+    const shareUrl = house ? this.shareLink() : '';
+    const shareText = house ? ('The Sorting Hat of Computer Vision sorted me into ' + house.name + ' — ' + house.title + '. Which CV house are you?') : '';
     return {
+      shareX: 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText) + '&url=' + encodeURIComponent(shareUrl),
+      shareLinkedIn: 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(shareUrl),
+      doCopy: () => this.copyLink(),
+      copyLabel: copied ? '✓ Copied!' : '🔗 Copy link',
+      copyColor: copied ? '#34d399' : '#e2ddf5',
+      copyBorder: copied ? '#34d399' : 'rgba(122,66,184,0.15)',
+      retakeLabel: deepLinked ? '🎩 Take the Quiz Yourself' : '🔄 Retake the Quiz',
       showProgress: phase !== 'results',
       progressText: phase === 'quiz' ? 'Question ' + (currentQ + 1) + ' of ' + total : 'Quiz Complete!',
       progressPct: pct + '%',
@@ -265,12 +327,20 @@ class Component extends DCLogic {
       houseDesc: house ? house.desc : '',
       recommendation: house ? house.recommendation : '',
       recDetail: house ? house.recDetail : '',
-      scoreRows: house ? Object.entries(scores).map(([k, v]) => ({
+      scoreRows: (house && !deepLinked) ? Object.entries(scores).map(([k, v]) => ({
         label: this.houses[k].emoji + ' ' + this.houses[k].name,
         pct: (scoreTotal > 0 ? Math.round((v / scoreTotal) * 100) : 0) + '%',
         color: this.displayColor(k)
       })) : [],
-      retake: () => this.setState({ phase: 'quiz', currentQ: 0, scores: { G: 0, R: 0, H: 0, S: 0 }, selected: -1, winner: null, email: '' })
+      retake: () => {
+        try {
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState({}, '', window.location.pathname);
+          }
+        } catch (e) {}
+        this.track('start');
+        this.setState({ phase: 'quiz', currentQ: 0, scores: { G: 0, R: 0, H: 0, S: 0 }, selected: -1, winner: null, email: '', deepLinked: false, copied: false });
+      }
     };
   }
 }

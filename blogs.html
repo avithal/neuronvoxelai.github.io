@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #0b0914; color: #f1f0f5; font-family: 'Inter', -apple-system, sans-serif; line-height: 1.6; }
+  a { color: #c084fc; } a:hover { color: #e2d5ff; }
+</style>
+</helmet>
+
+<header data-screen-label="Header" style="max-width:1200px;margin:0 auto;padding:36px 16px 8px;display:flex;flex-direction:column;align-items:center;gap:22px">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center">
+    <img src="logo-mark-bright.png" alt="NeuronVoxel AI brain mark" style="width:104px;height:auto;filter:drop-shadow(0 0 24px rgba(122,66,184,0.45))">
+    <div style="font-size:30px;font-weight:800;letter-spacing:2px;line-height:1.1"><span style="color:#ffffff">NEURON</span><span style="color:#c084fc">VOXEL</span><span style="color:#ffffff"> AI</span></div>
+    <div style="color:#a39fb8;font-size:13px;font-weight:600;letter-spacing:6px;text-transform:uppercase">Robust Vision Systems</div>
+  </div>
+  <nav style="display:flex;gap:8px;background:#1a1533;padding:8px;border-radius:12px;border:1px solid rgba(122,66,184,0.15)">
+    <a href="index.html" style="color:#a39fb8;text-decoration:none;padding:8px 24px;border-radius:8px;font-weight:500" style-hover="color:#ffffff;background:rgba(255,255,255,0.05)">Home</a>
+    <a href="services.html" style="color:#a39fb8;text-decoration:none;padding:8px 24px;border-radius:8px;font-weight:500" style-hover="color:#ffffff;background:rgba(255,255,255,0.05)">Services</a>
+    <a href="quiz.html" style="color:#a39fb8;text-decoration:none;padding:8px 24px;border-radius:8px;font-weight:500" style-hover="color:#ffffff;background:rgba(255,255,255,0.05)">Quiz</a>
+    <a href="blogs.html" style="color:#ffffff;text-decoration:none;padding:8px 24px;border-radius:8px;font-weight:500;background:#7a42b8;box-shadow:0 4px 12px rgba(122,66,184,0.35)">Blogs</a>
+  </nav>
+</header>
+
+<main style="max-width:860px;margin:0 auto;padding:40px 16px 80px">
+
+  <section data-screen-label="Blogs hero" style="text-align:center;margin-bottom:48px">
+    <h1 style="font-size:clamp(1.8rem,4.5vw,3rem);margin:0 0 16px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#fff 30%,#c084fc 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Blogs</h1>
+    <p style="font-size:1.2rem;color:#a39fb8;margin:0;text-wrap:pretty">Field notes on building vision systems that survive production — medical imaging, edge deployment, and everything in between.</p>
+  </section>
+
+  <section data-screen-label="Coming soon" style="background:linear-gradient(145deg,#141126 0%,#1a1436 100%);border:1px solid rgba(122,66,184,0.15);border-radius:16px;padding:56px 40px;text-align:center">
+    <div style="font-size:2.2rem;margin-bottom:12px">✍️</div>
+    <h2 style="margin:0 0 12px;font-weight:800;color:#fff">First posts coming soon</h2>
+    <p style="color:#a39fb8;margin:0 0 24px;max-width:480px;margin-left:auto;margin-right:auto">In the meantime, find out how my skills match your project, or take the CV house quiz.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="index.html" style="display:inline-block;background:#7a42b8;color:#fff;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:600;transition:background-color 0.2s,transform 0.15s" style-hover="background:#8e54cf;transform:translateY(-2px)">Analyze a Job Description</a>
+      <a href="quiz.html" style="display:inline-block;background:transparent;border:1px solid #7a42b8;color:#c084fc;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:600;transition:background-color 0.2s,transform 0.15s" style-hover="background:rgba(122,66,184,0.15);transform:translateY(-2px)">Take the Quiz</a>
+    </div>
+  </section>
+</main>
+
+<footer style="border-top:1px solid rgba(255,255,255,0.05);padding:32px 16px;text-align:center;color:#a39fb8;font-size:0.9rem">
+  <p style="margin:0">© 2026 NeuronVoxel AI · Robust Vision Systems</p>
+</footer>
+</x-dc>
+</body>
+</html>

@@ -51,3 +51,32 @@ Weekly content cycle re-run. Rewrote `content-ideas.md` with 8 fresh opportuniti
 2026-10-28
 
 SCOUT COMPLETE 2026-10-28
+
+---
+
+## Run 3 — 2026-11-04
+
+### Mission Summary
+Weekly content cycle re-run. Rewrote `content-ideas.md` with 8 fresh opportunities (none repeating the 2026-06-29 or 2026-10-28 lists), researched across Reddit (r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv), competitor sites (Roboflow, Viso.ai), and 2026 arXiv/trade-press chatter from the last 30 days. Produced the week's LinkedIn post based on the #1 opportunity.
+
+### Deliverables
+- [content-ideas.md](../outputs/content-ideas.md) — rewritten, dated 2026-11-04, with an expanded "Previously covered" list (16 entries)
+- [linkedin/2026-11-04.md](../outputs/linkedin/2026-11-04.md) — LinkedIn post on edge AI chip spec-sheet marketing vs. real-world memory-bound benchmarks, linking to quiz.html
+
+### Key Findings
+1. **Edge AI hardware buying is spec-sheet-driven and broken** — independent benchmarks show Hailo-8 losing to Jetson Orin Nano on YOLOv8m purely from on-chip memory limits, a failure mode no vendor datasheet discloses
+2. **VLM hallucination research has moved past attention-map heuristics** — 2026 papers show hidden-state probes and consistency checks are better reliability signals, and numeric/OCR content hallucinates far more than descriptive text; zero practitioner translation exists yet
+3. **World Labs' Atlas and the $1B spatial-intelligence raise** are covered as a research story everywhere, with no practitioner framing of when (if ever) a CV team actually needs world-model infra vs. today's detection/segmentation stack
+4. **Gaussian splatting crossed into production tooling** (Houdini 22 GA, OpenUSD 26.03 schema) faster than CV engineering content caught up — all current coverage is VFX/rendering-focused, none is CV-engineering-focused (compression, real-time inference, SLAM/robotics use)
+5. **Manufacturing QC false-positive drift** (2% → 11% over 3 months from a supplier material change) is a real, underserved pain point distinct from the "accuracy at launch" framing most AI-inspection vendors use
+
+### Sources Searched
+- Reddit: r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv (via search + archived snapshots)
+- Hardware benchmarks: Jetson Thor, Hailo-10H/Hailo-8, Jetson Orin Nano Super vs. Pi 5 + Hailo-8 head-to-head reviews
+- Research: 2026 arXiv/ACL papers on VLM hallucination diagnostics, InternVideo3/CoVER/VideoPro/LongVT long-video reasoning papers
+- Industry: World Labs/Atlas spatial-intelligence coverage, Houdini 22/OpenUSD 26.03 Gaussian-splatting production tooling, Roboflow Visual Intelligence Summit (Oct 22, 2026), manufacturing QC trade press (Quality Digest, Automation.com)
+
+### Timestamp
+2026-11-04
+
+SCOUT COMPLETE 2026-11-04

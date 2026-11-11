@@ -80,3 +80,33 @@ Weekly content cycle re-run. Rewrote `content-ideas.md` with 8 fresh opportuniti
 2026-11-04
 
 SCOUT COMPLETE 2026-11-04
+
+---
+
+## Run 4 — 2026-11-11
+
+### Mission Summary
+Weekly content cycle re-run. Rewrote `content-ideas.md` with 8 fresh opportunities (none repeating the 2026-06-29, 2026-10-28, or 2026-11-04 lists), researched across Reddit (r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv), competitor sites (Roboflow, Viso.ai), and Oct-Nov 2026 arXiv/trade-press/YouTube chatter. Produced the week's LinkedIn post based on the #1 opportunity.
+
+### Deliverables
+- [content-ideas.md](../outputs/content-ideas.md) — rewritten, dated 2026-11-11, with an expanded "Previously covered" list (24 entries)
+- [linkedin/2026-11-11.md](../outputs/linkedin/2026-11-11.md) — LinkedIn post on AI-agent vision token costs and the small-model-as-filter pattern, linking to services.html
+
+### Key Findings
+1. **Vision-capable AI agents are brutally expensive to run** — one benchmark found ~45x more token usage than text-only agents, purely from screenshot/frame input cost
+2. **Two independent 2026 benchmarks (Apple MM-ToolSandBox, AgentVista) show the real bottleneck for multimodal agents is weak visual perception, not reasoning** — best model hit only 27.3% on AgentVista's hardest visual tasks
+3. **The emerging fix is architectural, not a bigger model** — Roboflow shipped a tutorial (Oct 29) on using a small, cheap detector as a pre-filter in front of the expensive VLM/agent; nobody has connected this to the cost benchmarks in one practitioner piece yet
+4. **Cross-runtime numerical drift (PyTorch vs. ONNX vs. TensorRT) is a persistent, unresolved practitioner pain** — surfaced again in a Nov 2026 newsletter (object counts changing by inference engine) on top of long-running NVIDIA/PyTorch forum threads
+5. **Open-vocabulary detection tutorials are displacing fixed-class YOLO content on YouTube/PyImageSearch**, but nobody covers the real migration cost (latency, relabeling, prompt sensitivity) of swapping a production pipeline
+6. **Roboflow's edge-fleet-management push (Deployment Manager, Oct 29) is vendor-locked** — leaves room for a vendor-neutral staged-rollout/telemetry playbook
+
+### Sources Searched
+- Reddit: r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv (via search + archived snapshots)
+- Industry/news: The Register (vision-agent token-cost benchmark), CV Brief newsletter (Nov 1-5 2026 digests), Roboflow blog (agent-filter + edge-fleet posts, Oct 29 2026), Viso.ai 2026 trends
+- Research: Apple MM-ToolSandBox, AgentVista benchmark, VTC-Bench/Orion visual-agent tool papers, VLA information-bottleneck discussion, a16z "Physical AI Deployment Gap"
+- Forums: NVIDIA developer forums and PyTorch discussion boards on PyTorch/ONNX/TensorRT output drift; OpenCV community forum/FAQ on build friction
+
+### Timestamp
+2026-11-11
+
+SCOUT COMPLETE 2026-11-11

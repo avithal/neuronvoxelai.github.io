@@ -1,106 +1,70 @@
 # Top 8 Content Opportunities for NeuronVoxel AI
 
-## 2026-11-11
+## 2026-11-18
 
-> Ranked by composite score (Audience × Purchase Intent × Content Gap × Quiz/Lead Magnet Potential, each 1-5). Research conducted across Reddit (r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv), search/trend signals, competitor sites (Roboflow, Viso.ai), and arXiv/YouTube/industry chatter from the last 30 days (Oct 12 – Nov 11, 2026). Cross-checked against this file's prior runs (2026-06-29, 2026-10-28, 2026-11-04) — all eight ideas below are new; see "Previously covered" below for the full no-repeat list.
+> Ranked by composite score (Audience × Purchase Intent × Content Gap × Quiz/Lead Magnet Potential, each 1-5). Research conducted across Reddit (r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv), EU regulatory/legal trade press, competitor sites (Roboflow, Viso.ai, Plainsight), and arXiv/GitHub/industry chatter from the last 30 days (Oct 19 – Nov 18, 2026). Cross-checked against this file's prior runs (2026-06-29, 2026-10-28, 2026-11-04, 2026-11-11) — all eight ideas below are new; see "Previously covered" below for the full no-repeat list.
 
 ---
 
-### 1. 🏆 "Your AI Agent's Vision Bill Is Bigger Than You Think — and Nobody's Filtering It"
+### 1. 🏆 "Your Vision Model Just Inherited a Regulatory Deadline — Here's the Engineering Checklist, Not the Legal One"
 
-**Angle:** A 2026 benchmark (The Register, citing independent testing) found vision-capable agents burn roughly 45x more tokens than text/API-only agents, because every screenshot or frame costs thousands of input tokens before the model even starts reasoning. Meanwhile two separate 2026 benchmarks (Apple's MM-ToolSandBox, AgentVista) independently conclude that the bottleneck for multimodal agents isn't tool-calling logic or reasoning — it's weak visual perception (best model on AgentVista's hardest visual tasks: 27.3% accuracy). The fix quietly taking hold (Roboflow shipped a tutorial on it Oct 29) is architectural, not a bigger model: put a small, cheap, purpose-built detector in front of the expensive VLM/agent as a triage filter, and only escalate the frames that actually need judgment. Nobody has connected the cost benchmark + the perception-bottleneck research + the production pattern into one practitioner piece.
+**Angle:** The EU's Digital Omnibus on AI (Regulation 2026/1744) entered into force in July 2026 and pushed the AI Act's high-risk deadline for Annex III use cases — including biometric categorization, remote identification, and emotion recognition — to December 2, 2027 (products embedding AI under Annex I now have until August 2028). Every piece of coverage so far is written by law firms and compliance-SaaS vendors for legal/GC audiences (Lewis Silkin, Orrick, Holistic AI, Kertos) — none translate this into what actually changes in a CV engineer's pipeline: which model outputs count as "biometric categorization," how on-device blur/pixelate-before-storage changes your architecture, what counts as a "safety component" under the narrowed 2026 definition, and what a technical file/conformity assessment actually requires from your MLOps stack. Roboflow's Nov 9 post ("Compliance and Readiness for Computer Vision") gestures at this from a platform-feature angle (local deployment, API-key governance, on-prem anonymization) but stops short of a general engineering playbook — leaving a wide-open, extremely high-intent gap for a vendor-neutral technical breakdown.
 
-**Source:** The Register (vision agents ~45x token cost benchmark, May 2026); Apple's MM-ToolSandBox (July 2026, 500+ tools/16 domains, visual tool-calling named the hard frontier); AgentVista (Mar 2026, best model 27.3% on hardest visual tasks); Roboflow blog, "How to Use a Small Vision Model as a Filter for an AI Agent" (Oct 29, 2026) and "Agentic Computer Vision with Roboflow Workflows" (specialist-model-for-evidence, VLM-for-ambiguity pattern); KDD 2026 workshop paper on selective VLM serving with upstream lightweight routing.
+**Source:** Regulation (EU) 2026/1744 "Digital Omnibus on AI" (Official Journal, published July 24 2026, in force July 27 2026); Cloud Security Alliance research notes on the Annex III deadline delay to Dec 2 2027; Orrick "EU AI Act Update: Digital Omnibus Finalizes 8 Compliance Changes" (July 2026); Holistic AI "The EU AI Act's deadline moved to 2027. Yours didn't"; Roboflow blog, "How Roboflow Helps with Compliance and Readiness for Computer Vision" (Sylvie Goldner, Nov 9 2026).
 
 | Score | Rating |
 |-------|--------|
-| Audience Size | ⭐⭐⭐⭐⭐ |
+| Audience Size | ⭐⭐⭐⭐ |
 | Purchase Intent | ⭐⭐⭐⭐⭐ |
-| Content Gap | ⭐⭐⭐⭐ |
+| Content Gap | ⭐⭐⭐⭐⭐ |
 | Quiz/Lead Magnet | ⭐⭐⭐⭐⭐ |
 | **Composite** | **19/20** |
 
-**Recommended Format:** Technical blog post (architecture pattern + cost-math breakdown) + "What's Your Agent's Vision Burning in Tokens?" interactive cost-estimator quiz (lead magnet)
+**Recommended Format:** Technical compliance guide (blog post) + "Is Your Vision System High-Risk Under the EU AI Act?" interactive classifier quiz (lead magnet, maps model type/use case to Annex III exposure and a recommended next step)
 
 ---
 
-### 2. "The Silent Numerical Drift: Why Your Model Gives a Different Answer in PyTorch, ONNX, and TensorRT"
+### 2. "Roboflow Just Shipped Action Recognition — and the Annotation Paradigm Just Changed from Boxes to Time"
 
-**Angle:** A recurring, scattered complaint across NVIDIA developer forums and PyTorch discussion boards — the same weights, same input, different output depending on runtime — just surfaced again in a Nov 2026 CV newsletter noting the same vision model produces different object counts depending on the inference engine used. Causes range from differing default confidence/NMS thresholds to GPU-specific kernel algorithm selection (confirmed by NVIDIA engineers on a Thor-vs-Orin thread) to INT64/precision handling during export. No one has turned the forum chaos into a practitioner-grade "how to actually validate cross-runtime equivalence before you ship" guide — and this is a trust problem that directly threatens teams relying on a model's reported accuracy after deployment.
+**Angle:** On Nov 11, 2026, Roboflow launched Action Recognition as a first-class project type, backed by Cosmos 3 Edge and V-JEPA 2.1 — instead of drawing bounding boxes, teams mark time ranges on a video timeline and label what happens during each window (did the operator complete the step, in what order, how long did it take). This is a genuinely new annotation paradigm, not an incremental feature, and it launched a week ago with zero independent practitioner coverage: no one has written about what breaks when you move from spatial labeling (boxes/masks) to temporal labeling (windows/sequences) — dataset design, inter-annotator agreement on "when did the action start," and how this changes QA review workflows versus the box-and-mask world most CV teams are used to.
 
-**Source:** NVIDIA developer forums (TensorRT vs. ONNX Runtime vs. PyTorch output mismatches, including a Jetson Orin NX vs. DGX Spark distortion report and a Thor-vs-Orin algorithm-selection discrepancy, both 2026); PyTorch discussion board (ONNX export divergence threads, 2026); CV Brief newsletter (Nov 2026) flagging inference-engine-dependent object counts as a live practitioner pain point.
+**Source:** Roboflow blog, "Train, Evaluate, and Deploy Action Recognition Models with Roboflow" (Erik Kokalj, Nov 11 2026); Roboflow Action Recognition product page; Meta V-JEPA2 GitHub repo (V-JEPA 2.1 release, March 16 2026).
 
 | Score | Rating |
 |-------|--------|
 | Audience Size | ⭐⭐⭐ |
-| Purchase Intent | ⭐⭐⭐⭐⭐ |
+| Purchase Intent | ⭐⭐⭐⭐ |
 | Content Gap | ⭐⭐⭐⭐⭐ |
-| Quiz/Lead Magnet | ⭐⭐ |
-| **Composite** | **15/20** |
+| Quiz/Lead Magnet | ⭐⭐⭐⭐ |
+| **Composite** | **16/20** |
 
-**Recommended Format:** Deep-dive technical guide + downloadable "Cross-Runtime Equivalence Checklist" (lead magnet)
+**Recommended Format:** Technical explainer/early-hands-on blog post + "Detection, Segmentation, or Action Recognition: Which Does Your Use Case Actually Need?" decision quiz
 
 ---
 
-### 3. "Open-Vocabulary Detection Looks Like a Drop-In Upgrade From YOLO. It Isn't."
+### 3. "Your Vision Pipeline Isn't Failing on Accuracy. It's Failing on Integration Timing."
 
-**Angle:** YouTube/tutorial traffic has visibly shifted from fixed-class YOLO toward open-vocabulary and VLM-grounded detection (SAM3, PaliGemma 2, Qwen-grounding tutorials proliferating on PyImageSearch and elsewhere in Oct–Nov 2026), and classical CV ops are now being wrapped wholesale as agent tools (VTC-Bench's 32 OpenCV-derived tool set; the Orion visual-agent paper). But every tutorial covers the swap in isolation — none cover what actually breaks when a team migrates a production fixed-class pipeline: latency regressions, prompt-sensitivity replacing class-label stability, and relabeling cost for existing datasets. This is a distinct, practitioner-migration angle from this outlet's own prior open-vocabulary model comparison.
+**Angle:** A cluster of fresh industrial case studies (Edge AI Vision, Aug 2026; iFactory, Aug 2026; Oxmaint, Jan 2026) converges on the same under-told story: CV deployments that work fine in validation stall in production not because the model misses defects, but because the integration layer connecting detection to a legacy PLC/MES/SCADA system was never built for real plant timing. One documented case: inspection results arrived 200ms after parts had already passed the reject gate, costing ~4 months and $85,000 in rework. This is distinct from last week's edge-fleet-management piece (which was about rolling updates across many devices) — this is about the single-site handoff between a vision model's output and a 20-year-old control system, a recurring and expensive failure mode nobody frames as its own category of risk.
 
-**Source:** PyImageSearch 2026 tutorial cadence (PaliGemma 2, SAM3+Qwen segmentation); VTC-Bench (32-tool OpenCV-derived toolkit for visual agents, 2026); Orion visual-agent paper (orchestrating detection/segmentation/OCR as discrete tools, 2026).
+**Source:** Edge-AI-Vision.com, "What Quality Managers Get Wrong Before a Single Camera is Installed" (Aug 2026); iFactory, system-integrator account of legacy vision upgrades (Aug 2026); Oxmaint steel-plant case study on PLC communication delay and rework cost (Jan 2026); Roboflow blog, "The CV Integration Stack: How Roboflow Vision AI Fits into PLC, MES, SCADA, and ERP" (2026).
 
 | Score | Rating |
 |-------|--------|
 | Audience Size | ⭐⭐⭐ |
 | Purchase Intent | ⭐⭐⭐⭐ |
 | Content Gap | ⭐⭐⭐⭐ |
-| Quiz/Lead Magnet | ⭐⭐ |
-| **Composite** | **13/20** |
-
-**Recommended Format:** Practitioner migration guide (before/after benchmarks + decision checklist)
-
----
-
-### 4. "Managing Computer Vision Across 500 Edge Devices Is a Different Job Than Managing One"
-
-**Angle:** Roboflow shipped a full product push around this in late Oct 2026 ("Managing Computer Vision Across an Edge Fleet," Edge AI Fleet Management, Deployment Manager, Vision Events for closed-loop retraining) and Red Hat independently flagged that a bad model update pushed to an entire fleet at once is a fundamentally different incident class than a cloud rollback. Every piece of coverage so far is vendor-authored (Roboflow selling its own Deployment Manager, Enterprise-only). There's room for a vendor-neutral practitioner piece on staged rollouts, telemetry, and rollback discipline for teams not on Roboflow's platform — a natural extension of this outlet's edge-deployment expertise, distinct from last week's hardware-buying-guide angle.
-
-**Source:** Roboflow blog, "Managing Computer Vision Across an Edge Fleet" and "Edge AI Fleet Management" (Oct 29, 2026); Roboflow Deployment Manager / Device Manager docs (Enterprise-only, Jetson-class device focus); Red Hat blog on MLOps for distributed edge AI fleets.
-
-| Score | Rating |
-|-------|--------|
-| Audience Size | ⭐⭐⭐ |
-| Purchase Intent | ⭐⭐⭐⭐ |
-| Content Gap | ⭐⭐⭐ |
 | Quiz/Lead Magnet | ⭐⭐⭐ |
-| **Composite** | **13/20** |
+| **Composite** | **14/20** |
 
-**Recommended Format:** Vendor-neutral ops playbook blog post + "Is Your Edge Fleet Ready to Scale?" readiness quiz
-
----
-
-### 5. "VLA's Game of Telephone: Why Squeezing Vision Through Language Loses the Precision Robots Actually Need"
-
-**Angle:** A specific, under-covered critique is circulating in robotics-research discussion: when a VLA model compresses vision into language tokens and then compresses language into action space, the action module ends up working from a blurry summary of what the camera actually saw — a "game of telephone" that loses exactly the metric/spatial precision motor control needs. Response: a push toward architectures that train vision, language, action, and physics prediction jointly instead of serially. This is a narrower research-engineering angle than this outlet's existing VLA-in-production piece — it's about *why* the representation itself leaks information, not about latency/deployment.
-
-**Source:** Robotics research discussion and arXiv preprints on VLA information bottlenecks (2026); "Experiences from Benchmarking Vision–Language–Action Models for Robotic Manipulation" (Nov 2026); a16z's "The Physical AI Deployment Gap" essay.
-
-| Score | Rating |
-|-------|--------|
-| Audience Size | ⭐⭐⭐ |
-| Purchase Intent | ⭐⭐⭐ |
-| Content Gap | ⭐⭐⭐⭐⭐ |
-| Quiz/Lead Magnet | ⭐ |
-| **Composite** | **12/20** |
-
-**Recommended Format:** Technical explainer blog post with an architecture diagram contrasting serial vs. joint VLA training
+**Recommended Format:** Practitioner blog post (case studies + a staged-integration checklist) + "Is Your Vision Deployment Actually a Software Problem?" readiness quiz
 
 ---
 
-### 6. "The Computer Vision Setup Tax: A 2026 Field Guide to Getting OpenCV + CUDA + TensorRT Actually Working"
+### 4. "V-JEPA 2.1 Learned Robot Pick-and-Place From Under 62 Hours of Unlabeled Video — So Why Is Everyone Still Hand-Labeling?"
 
-**Angle:** r/opencv and the OpenCV forums are still dominated in 2026 by build/install friction — CUDA build flags, cross-platform CMake pain, Raspberry Pi camera access, Rust-binding linker errors. Official docs rot faster than toolchains change, and no single current, hardware-aware guide exists covering the OpenCV+CUDA+TensorRT stack together. Squarely in this outlet's CUDA/TensorRT wheelhouse and a genuine, recurring, low-glamour pain point.
+**Angle:** Meta's action-conditioned V-JEPA 2-AC was post-trained on fewer than 62 hours of unlabeled robot video from the Droid dataset and then deployed zero-shot on Franka arms across two different labs for pick-and-place tasks — a self-supervised world-model approach that needs drastically less labeled data than the supervised VLA pipelines most robotics teams are still building. This is a distinct, data-efficiency angle (not latency, not the "telephone game" representation critique already covered in prior runs): the story here is that most teams are still solving a data-labeling problem that self-supervised world models have started to route around entirely.
 
-**Source:** OpenCV FAQ wiki (build section); OpenCV community forum (CUDA build, Raspberry Pi, CMake threads, 2026); Rust `opencv` crate troubleshooting docs; r/opencv snapshot activity (2026).
+**Source:** Meta V-JEPA2 GitHub README (V-JEPA 2.1 release, March 16 2026); The Robot Report, "Meta V-JEPA 2 World Model Uses Raw Video to Train Robots"; eWeek, "Meta's V-JEPA 2 World Model Brings AI Closer to Thinking Before Acting."
 
 | Score | Rating |
 |-------|--------|
@@ -110,43 +74,79 @@
 | Quiz/Lead Magnet | ⭐⭐ |
 | **Composite** | **12/20** |
 
-**Recommended Format:** Step-by-step setup guide blog post + downloadable build-config generator script (GitHub lead magnet)
+**Recommended Format:** Technical explainer blog post (data-efficiency comparison table: supervised VLA vs. self-supervised world-model pretraining)
 
 ---
 
-### 7. "Two New Benchmarks Just Proved AI Agents' Eyes Are Worse Than Their Brains"
+### 5. "Reddit Called Gen2Seg 'Not Novel.' The Author's Rebuttal Is the More Interesting Story."
 
-**Angle:** Reactive commentary piece on Apple's MM-ToolSandBox and AgentVista (both 2026): across a dozen proprietary multimodal models, visual tool-calling tops out around 27% accuracy on hard tasks, confirming that perception — not reasoning or tool-selection logic — is the open problem in agentic AI right now. Lower production lift, timely research hook, overlaps conceptually with #1 but stands alone as a short research-roundup/commentary piece.
+**Angle:** Gen2Seg (fine-tuned Stable Diffusion + MAE for instance segmentation, trained only on indoor furnishings and cars) got a mixed reception when discussed on r/computervision and r/MachineLearning in late 2026 — some called the segmentation masks no better than existing models, others said it beats SAM on fine structures and ambiguous boundaries, and the author directly rebutted the "not novel" criticism by pointing out the model generalizes to object categories (humans, animals) it never saw masks for. This is a good-faith research-literacy piece about how to actually evaluate a generalization claim instead of reflexively dismissing it — a different angle from the previously covered SAM3/annotation-bottleneck pieces.
 
-**Source:** MM-ToolSandBox paper (Apple, July 2026); AgentVista benchmark (Mar 2026).
+**Source:** r/computervision and r/MachineLearning threads on "gen2seg: Generative Models Enable Generalizable Instance Segmentation" (Nov 2026 discussion); arXiv 2505.15263 (Khangaonkar & Pirsiavash); project site reachomk.github.io/gen2seg.
 
 | Score | Rating |
 |-------|--------|
 | Audience Size | ⭐⭐⭐ |
 | Purchase Intent | ⭐⭐ |
-| Content Gap | ⭐⭐⭐ |
+| Content Gap | ⭐⭐⭐⭐ |
 | Quiz/Lead Magnet | ⭐ |
-| **Composite** | **9/20** |
+| **Composite** | **10/20** |
 
-**Recommended Format:** Short reactive blog post / LinkedIn commentary piece, low lift
+**Recommended Format:** Short research-commentary blog post / LinkedIn discussion piece, low production lift
 
 ---
 
-### 8. "AI Inspection Is Moving Past 'Is It Damaged?' — Into Predicting What Breaks Next"
+### 6. "OpenFilter and the Lego-Brick Future of Vision Pipelines: Is Container-Native CV Finally Here?"
 
-**Angle:** A Nov 2026 CV newsletter flags infrastructure-inspection AI moving beyond binary damage detection toward predictive framing. Thin signal, single-source, but a timely enterprise-buyer hook with low production cost if used as a short reactive piece rather than original research.
+**Angle:** Plainsight's OpenFilter (Apache 2.0, works with PyTorch, OpenCV, RTSP, MQTT, custom YOLO models) frames production vision pipelines as chains of modular, reusable, containerized "filters" — a composability pattern that's standard in data engineering but still ad hoc in most CV shops, where pipelines are usually one monolithic inference script per project. A launch demo (license-plate recognition built from four chained filters) got traction in r/computervision. No one has written a critical, hands-on evaluation of whether this pattern actually holds up for latency-sensitive production workloads versus a tightly coupled custom pipeline — a natural fit for an outlet with deep container/MLOps expertise.
 
-**Source:** CV Brief newsletter (Nov 3-5, 2026 digests) on AI infrastructure inspection moving beyond damage detection.
+**Source:** Plainsight blog, "Introducing OpenFilter 1.0: A New Foundation for Production Vision AI"; r/computervision launch thread (Plainsight CTO); OpenFilter Hub filter listing; docs.plainsight.ai.
 
 | Score | Rating |
 |-------|--------|
 | Audience Size | ⭐⭐⭐ |
 | Purchase Intent | ⭐⭐⭐ |
-| Content Gap | ⭐⭐ |
+| Content Gap | ⭐⭐⭐ |
+| Quiz/Lead Magnet | ⭐ |
+| **Composite** | **10/20** |
+
+**Recommended Format:** Hands-on technical evaluation blog post (build a pipeline both ways, compare latency/maintainability)
+
+---
+
+### 7. "VGGT-Ω Just Improved Calibration-Free 3D Reconstruction by 77%. Here's Why Robotics Teams Should Care."
+
+**Angle:** VGGT (Oxford VGG + Meta, CVPR 2025 Best Paper) estimates camera pose, depth, and point correspondences from a handful of images in seconds, no calibration needed. Its May 2026 successor, VGGT-Ω, reportedly improves camera-estimation accuracy on the Sintel benchmark by 77% over the original. Coverage so far is academic/research-press only (Oxford announcement, CVPR roundups) — nobody has written the practitioner translation: what calibration-free reconstruction actually displaces in a SLAM/robotics stack that currently depends on calibrated multi-camera rigs or LiDAR.
+
+**Source:** vgg-t.github.io (VGGT project site); Oxford Engineering news, "Oxford researchers awarded best paper at CVPR 2025"; arXiv VGGT-Ω preprint (submitted May 14 2026).
+
+| Score | Rating |
+|-------|--------|
+| Audience Size | ⭐⭐ |
+| Purchase Intent | ⭐⭐⭐ |
+| Content Gap | ⭐⭐⭐ |
+| Quiz/Lead Magnet | ⭐ |
+| **Composite** | **9/20** |
+
+**Recommended Format:** Short technical explainer blog post with before/after reconstruction diagram, low production lift
+
+---
+
+### 8. "Every Vendor's 'How to Design a Machine Vision System' Guide Skips the Part Where It Breaks"
+
+**Angle:** Roboflow published "How to Design a Machine Vision System Step by Step" on Nov 13, 2026 — a clean, vendor-authored checklist (lighting, lens selection, sensor choice, triggering). It's genuinely useful and also, structurally, a sales funnel: every step points back toward Roboflow's own platform. There's room for a short, pointed companion piece that keeps the engineering substance but adds the failure modes vendor guides have no incentive to mention — the same integration-timing and legacy-hardware themes as idea #3, told as a direct response to a specific, dated competitor post rather than an original investigation. Lower content-gap score since it's reactive/derivative of #3's research.
+
+**Source:** Roboflow blog, "How to Design a Machine Vision System Step by Step" (Nathan Smurthwaite, Nov 13 2026).
+
+| Score | Rating |
+|-------|--------|
+| Audience Size | ⭐⭐⭐ |
+| Purchase Intent | ⭐⭐⭐ |
+| Content Gap | ⭐ |
 | Quiz/Lead Magnet | ⭐ |
 | **Composite** | **8/20** |
 
-**Recommended Format:** Short reactive blog post, low lift
+**Recommended Format:** Short reactive blog post / LinkedIn commentary piece, low lift
 
 ---
 
@@ -154,15 +154,16 @@
 
 | Competitor | What They Do Well | What They Miss |
 |---|---|---|
-| **Roboflow** | Fast vendor tutorials on agent-filter patterns and edge fleet ops (tied to selling their own Deployment Manager / Workflows) | Vendor-neutral cost/architecture framing, cross-runtime validation engineering, migration-cost honesty |
-| **Viso.ai** | Big-picture 2026 trend framing (Visual General Intelligence, market sizing) | Hands-on engineering depth on agent-vision cost, inference-backend numerical drift |
-| **NeuronVoxel (Opportunity)** | Deep CUDA/TensorRT/edge expertise + interactive quiz lead-gen | Untapped: AI-agent vision cost engineering, cross-runtime validation guides, vendor-neutral edge fleet ops |
+| **Roboflow** | Fastest-to-market on new product categories (Action Recognition, Nov 11) and platform-feature compliance framing (Nov 9) | Vendor-neutral compliance engineering playbook, critical evaluation of its own "how to design a system" marketing content |
+| **Viso.ai** | Big-picture 2026 trend framing (Visual General Intelligence, market sizing) | Regulatory/compliance engineering depth, hands-on evaluation of new model releases (V-JEPA 2.1, VGGT-Ω) |
+| **Plainsight** | Open-source container-native pipeline tooling (OpenFilter) with real community traction | No critical third-party evaluation exists yet of whether the composability pattern holds under production latency constraints |
+| **NeuronVoxel (Opportunity)** | Deep CUDA/TensorRT/edge expertise + interactive quiz lead-gen + a consulting/audit service line that maps directly onto compliance work | Untapped: EU AI Act compliance-as-engineering-problem content, action-recognition early-adopter guides, integration-timing-debt playbook |
 
 ---
 
 ## Previously covered
 
-*From the 2026-06-29, 2026-10-28, and 2026-11-04 runs — do not repeat these angles in future cycles:*
+*From the 2026-06-29, 2026-10-28, 2026-11-04, and 2026-11-11 runs — do not repeat these angles in future cycles:*
 
 1. Cloud-to-Edge Deployment Playbook (notebook → ONNX → TensorRT → Jetson Orin)
 2. Synthetic Data for CV in 2026: The Honest Guide to What Works and What Doesn't
@@ -188,7 +189,26 @@
 22. Long-Video Understanding Finally Got an Architecture: Retrieval, Not Brute-Force Context
 23. Oriented Bounding Boxes: The Annotation Format Everyone's Googling and Nobody's Teaching
 24. What Roboflow's Visual Intelligence Summit Tells Us About Where Vision AI Budgets Are Actually Going
+25. Your AI Agent's Vision Bill Is Bigger Than You Think — and Nobody's Filtering It
+26. The Silent Numerical Drift: Why Your Model Gives a Different Answer in PyTorch, ONNX, and TensorRT
+27. Open-Vocabulary Detection Looks Like a Drop-In Upgrade From YOLO. It Isn't.
+28. Managing Computer Vision Across 500 Edge Devices Is a Different Job Than Managing One
+29. VLA's Game of Telephone: Why Squeezing Vision Through Language Loses the Precision Robots Actually Need
+30. The Computer Vision Setup Tax: A 2026 Field Guide to Getting OpenCV + CUDA + TensorRT Actually Working
+31. Two New Benchmarks Just Proved AI Agents' Eyes Are Worse Than Their Brains
+32. AI Inspection Is Moving Past "Is It Damaged?" — Into Predicting What Breaks Next
+
+*From the 2026-11-18 run:*
+
+33. Your Vision Model Just Inherited a Regulatory Deadline — Here's the Engineering Checklist, Not the Legal One (EU AI Act / Annex III)
+34. Roboflow Just Shipped Action Recognition — and the Annotation Paradigm Just Changed from Boxes to Time
+35. Your Vision Pipeline Isn't Failing on Accuracy. It's Failing on Integration Timing. (PLC/MES/SCADA integration debt)
+36. V-JEPA 2.1 Learned Robot Pick-and-Place From Under 62 Hours of Unlabeled Video
+37. Reddit Called Gen2Seg "Not Novel." The Author's Rebuttal Is the More Interesting Story.
+38. OpenFilter and the Lego-Brick Future of Vision Pipelines
+39. VGGT-Ω Just Improved Calibration-Free 3D Reconstruction by 77%
+40. Every Vendor's "How to Design a Machine Vision System" Guide Skips the Part Where It Breaks
 
 ---
 
-*Research conducted: 2026-11-11 | Sources: Reddit (r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv, via live search + archived mirrors), The Register (vision-agent token-cost benchmark), Apple MM-ToolSandBox & AgentVista benchmarks, Roboflow blog (agent-filter and edge-fleet posts, Oct 29 2026), NVIDIA developer forums & PyTorch discussion boards (cross-runtime inference drift), CV Brief newsletter (Nov 1-5 2026 digests), PyImageSearch 2026 tutorial trends, a16z "Physical AI Deployment Gap", OpenCV community forum/FAQ*
+*Research conducted: 2026-11-18 | Sources: Reddit (r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv, via live search + archived mirrors), EU regulatory/legal trade press (Cloud Security Alliance, Orrick, Holistic AI, Lewis Silkin, Kertos) on the Digital Omnibus on AI (Reg. 2026/1744), Roboflow blog (Action Recognition launch Nov 11, compliance post Nov 9, machine-vision design guide Nov 13, CV integration stack), Meta V-JEPA2 GitHub repo, Plainsight/OpenFilter launch materials, Oxford VGG/arXiv (VGGT, VGGT-Ω), industrial integration case studies (Edge-AI-Vision.com, iFactory, Oxmaint)*

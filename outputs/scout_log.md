@@ -110,3 +110,34 @@ Weekly content cycle re-run. Rewrote `content-ideas.md` with 8 fresh opportuniti
 2026-11-11
 
 SCOUT COMPLETE 2026-11-11
+
+---
+
+## Run 5 — 2026-11-18
+
+### Mission Summary
+Weekly content cycle re-run. Rewrote `content-ideas.md` with 8 fresh opportunities (none repeating prior weeks' lists), researched across Reddit (r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv), EU AI regulatory/legal trade press, competitor sites (Roboflow, Viso.ai, Plainsight), and Oct-Nov 2026 arXiv/GitHub/industry chatter. Produced the week's LinkedIn post based on the #1 opportunity.
+
+### Deliverables
+- [content-ideas.md](../outputs/content-ideas.md) — rewritten, dated 2026-11-18, with an expanded "Previously covered" list (40 entries)
+- [linkedin/2026-11-18.md](../outputs/linkedin/2026-11-18.md) — LinkedIn post on the EU AI Act's Digital Omnibus / Annex III deadline as a CV engineering problem, linking to services.html
+
+### Key Findings
+1. **The EU AI Act's high-risk deadline moved to December 2, 2027** (Annex III) via the Digital Omnibus (Reg. 2026/1744, in force July 2026) — all current coverage is legal/GC-audience, leaving a wide-open gap for a CV-engineering translation (biometric categorization scope, safety-component exemptions, technical-file requirements)
+2. **Roboflow shipped Action Recognition as a new project type (Nov 11, 2026)** — temporal time-range labeling backed by Cosmos 3 Edge/V-JEPA 2.1, replacing bounding boxes for "what happened when" tasks; zero independent practitioner coverage exists yet
+3. **Industrial CV deployments keep stalling on PLC/MES/SCADA integration timing, not model accuracy** — a documented case had inspection results arriving 200ms after parts passed the reject gate, costing $85k and 4 months of rework
+4. **Meta's V-JEPA 2.1 action-conditioned world model learned zero-shot robot pick-and-place from under 62 hours of unlabeled video** — a data-efficiency story distinct from the latency/representation angles covered in prior weeks
+5. **Reddit's mixed reception to Gen2Seg** (fine-tuned diffusion models for segmentation) surfaces a research-literacy angle: evaluating generalization claims versus reflexively calling something "not novel"
+6. **Plainsight's OpenFilter** is pushing a container-native, composable "Lego brick" pattern for vision pipelines with real r/computervision traction, but no independent evaluation of whether it holds up under production latency constraints
+
+### Sources Searched
+- Reddit: r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv (via search + archived mirrors)
+- EU regulatory/legal press: Cloud Security Alliance, Orrick, Holistic AI, Lewis Silkin, Kertos (Digital Omnibus on AI / Annex III deadline)
+- Industry: Roboflow blog (Action Recognition Nov 11, compliance post Nov 9, machine-vision design guide Nov 13), Viso.ai 2026 trends, Plainsight/OpenFilter launch materials
+- Research: Meta V-JEPA2 GitHub repo, Oxford VGG/arXiv VGGT and VGGT-Ω, gen2seg paper (arXiv 2505.15263)
+- Case studies: Edge-AI-Vision.com, iFactory, Oxmaint (industrial PLC/vision integration cost and timing failures)
+
+### Timestamp
+2026-11-18
+
+SCOUT COMPLETE 2026-11-18

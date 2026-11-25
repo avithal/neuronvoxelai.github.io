@@ -141,3 +141,33 @@ Weekly content cycle re-run. Rewrote `content-ideas.md` with 8 fresh opportuniti
 2026-11-18
 
 SCOUT COMPLETE 2026-11-18
+
+---
+
+## Run 6 — 2026-11-25
+
+### Mission Summary
+Weekly content cycle re-run. Rewrote `content-ideas.md` with 8 fresh opportunities (none repeating prior weeks' 40-item list), researched across Reddit (r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv), Ultralytics and Roboflow blogs, MLOps/engineering trade press, and HuggingFace/arXiv releases from the last 30 days. Produced the week's LinkedIn post based on the #1 opportunity.
+
+### Deliverables
+- [content-ideas.md](../outputs/content-ideas.md) — rewritten, dated 2026-11-25, with an expanded "Previously covered" list (48 entries)
+- [linkedin/2026-11-25.md](../outputs/linkedin/2026-11-25.md) — LinkedIn post on the economics of VLM auto-annotation (cost-per-useful-label), linking to services.html
+
+### Key Findings
+1. **Ultralytics' Nov 11 VLM auto-annotation leaderboard** is the freshest, most quotable, most purchase-intent-heavy find this week — Gemini 4 Carbon tops it at 0.584 mAP50, but GPT-6.1 Terra hits ~96% of that accuracy at roughly a third of the cost, plus a disclosed $1.00/1,000-image batch-annotation fee — and nobody has written the neutral cost-per-useful-label translation of it
+2. **2026 is the year of the sub-8B on-device VLM** — at least five distinct shipping models since August (Liquid AI LFM2.5-VL-3B, Cohere North-Micro-Vision-Instruct, Zyphra ZAYA1-VL-8B, MiniCPM-V 4.6, Xiaomi HyperVL/AuroraEdge-V-2B) — a direct extension of NeuronVoxel's edge-deployment expertise untouched in prior runs
+3. **Roboflow is publishing its own integration pain points as tutorials faster than anyone critiques them** — a Nov 2 post documents a custom FTP/OPC UA/Workflow bridge app built because native integrations only cover RTSP/USB/GigE, and a Nov 5 post reframes vision AI as SOP-compliance auditing (procurement conversation, not a modeling one)
+4. **YOLO27 is a live "vendor hypes an unreleased model" moment** — both Ultralytics and Roboflow are publishing exciting preliminary benchmarks for a model with no public weights, while simultaneously telling customers to keep using YOLO26 in production
+5. **Embedding drift (not accuracy monitoring) is the sharper early-warning signal** for production CV failures, per a 2026 MLOps engineering write-up — vendor docs (Encord, Ultralytics) say "track drift" without specifying which signal buys real lead time
+6. **Reddit could not be independently verified this week** — WebSearch returned only undated mirror snapshots of r/computervision and r/robotics, not confirmed November 2026 threads; flagging this as a recurring research-method gap to revisit (consider a direct Reddit API/search approach in future runs)
+
+### Sources Searched
+- Reddit: r/computervision, r/MachineLearning, r/deeplearning, r/robotics, r/datascience, r/opencv (returned only undated mirror snapshots this week — see Key Finding 6)
+- Industry: Ultralytics blog/docs (VLM Leaderboard Nov 11, YOLO27 preliminary benchmarks, auto-annotation pricing), Roboflow blog (FTP/OPC UA bridge Nov 2, SOP-verification Nov 5, YOLO27 commentary)
+- Research: HuggingFace/arXiv releases (LFM2.5-VL-3B, North-Micro-Vision-Instruct, ZAYA1-VL-8B, AuroraEdge-V-2B, HyperVL)
+- MLOps/trade press: krishna-dhulipalla.github.io (embedding drift), Encord, Voxel51, Averroes, Towards Data Science (labeling cost economics), eWeek (Solomon/Unitree G1 Active Perception)
+
+### Timestamp
+2026-11-25
+
+SCOUT COMPLETE 2026-11-25
